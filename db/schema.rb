@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201105105439) do
+ActiveRecord::Schema.define(version: 20201105135933) do
 
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.float "total_amount", limit: 24
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20201105105439) do
     t.boolean "admin", default: false
     t.string "reset_digest"
     t.datetime "reset_sent_at"
+    t.string "user_type"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

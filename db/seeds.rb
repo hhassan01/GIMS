@@ -10,6 +10,7 @@ User.create!(name:  "Admin User",
              email: "admin@gims.com",
              password:              "admin25",
              password_confirmation: "admin25",
+             user_type: "Distributor",
              admin: true,
             )
 
@@ -17,9 +18,11 @@ User.create!(name:  "Admin User",
     name  = Faker::Name.name
     email = "example-#{n+1}@gims.com"
     password = "password"
+    user_type = "Wholesaler"
     User.create!(name:  name,
                  email: email,
                  password:              password,
                  password_confirmation: password,
+                 user_type: user_type
                 )
 end
