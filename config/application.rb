@@ -26,6 +26,7 @@ module GimsAPI
 		# Application configuration should go into files in config/initializers
 		# -- all .rb files in that directory are automatically loaded.
 		config.api_only = true
+	    config.assets.initialize_on_precompile = false
 
 		#config.middleware.use ActionDispatch::Cookies
     	#config.middleware.use ActionDispatch::Session::CookieStore, key: '_coookie_name', expire_after: 30.days

@@ -35,9 +35,6 @@ module Api
 			def create
 				@user = User.new(user_params)
 				if @user.save
-					# flash[:info] = "#{UserMailer.account_activation(@user)}"
-					UserMailer.account_activation(@user).deliver
-					#@user.send_activation_email
 					render json: {
 						status: 'SUCCESS', 
 						message:'User Account Created', 
