@@ -12,6 +12,13 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from "axios";
+import Alert from '@material-ui/lab/Alert';
+//import { login } from "../actions/auth";
+import MuiAlert from "@material-ui/lab/Alert";
+
+//import AlertTitle from '@material-ui/lab/AlertTitle';
+import { AlertTitle } from '@material-ui/lab';
+//import { ReactComponent as Logo } from './logo.svg';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -44,11 +51,11 @@ export default function SignUp() {
   const [values, setValues] = React.useState({
     firstName: '',
     lastName: '',
-    location: '',
     email: '',
     password: '',
     passwordConfirmation: '',
-    user_type: 'Wholesaler'
+     log_success: false,
+    error: false
   });
 
   const handleChange = name => event => {
@@ -59,10 +66,8 @@ export default function SignUp() {
   const params = {
     name: fullName,
     email: values.email,
-    location: values.location,
     password: values.password,
-    passwordConfirmation: values.passwordConfirmation,
-    user_type: values.user_type
+    passwordConfirmation: values.passwordConfirmation
   }
 
   const handleSignup = event => {
@@ -74,13 +79,29 @@ export default function SignUp() {
     })
     .then(response => {
       console.log(response.data)
+      setValues({log_success:true})
     })
     .catch(error => console.log(error))
+     setValues({error:true})
   }; 
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      {
+          values.log_success ?
+            <Alert severity="success">
+              <AlertTitle>Success</AlertTitle>
+              Congratulations — <strong>You have successfully signed-up!</strong>
+            </Alert> : null
+        }
+        {
+          values.error ?
+            <Alert severity="error">
+              <AlertTitle>Error</AlertTitle>
+              Oh, there is something wrong. — <strong>Please check it out!</strong>
+            </Alert> : null
+        }
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -125,19 +146,6 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="location"
-                label="Location"
-                name="location"
-                autoComplete="location"
-                value={values.location}
-                onChange={handleChange('location')}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
@@ -172,10 +180,6 @@ export default function SignUp() {
                 autoComplete="current-password"
                 value={values.passwordConfirmation}
                 onChange={handleChange('passwordConfirmation')}
-              />
-              <input 
-                type="hidden" 
-                value={values.user_type}
               />
             </Grid>
           </Grid>
