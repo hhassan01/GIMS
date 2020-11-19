@@ -54,7 +54,7 @@ export default function SignUp() {
     email: '',
     password: '',
     passwordConfirmation: '',
-     log_success: false,
+    log_success: false,
     error: false
   });
 

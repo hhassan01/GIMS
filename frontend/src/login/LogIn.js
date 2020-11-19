@@ -73,6 +73,7 @@ export default function LogIn() {
     error: false,
     isUserAuth: false
   });
+
   const [openPopup, setOpenPopup] = React.useState(false);
   const params = {
     email: values.email,
@@ -106,29 +107,23 @@ export default function LogIn() {
     setValues({ ...values, [name]: event.target.value });
   };
 
-
-
-
-
-
   return (
     //<>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       {
-          values.log_success ?
-            <Alert severity="success">
-              <AlertTitle>Success</AlertTitle>
-              Congratulations — <strong>You have successfully signed-in!</strong>
-            </Alert> : null
-        }
-        {
-          values.error ?
-            <Alert severity="error">
-              <AlertTitle>Error</AlertTitle>
-              Oh, there is something wrong. — <strong>Please check it out!</strong>
-            </Alert> : null
-        }
+        values.log_success ?
+          <Alert severity="success">
+            <AlertTitle>Success</AlertTitle>
+            Congratulations — <strong>You have successfully signed-in!</strong>
+          </Alert> : null
+      }{    
+        values.error ?
+          <Alert severity="error">
+            <AlertTitle>Error</AlertTitle>
+            Oh, there is something wrong. — <strong>Please check it out!</strong>
+          </Alert> : null
+      }
       <div className={classes.paper}>
 
         <Avatar className={classes.avatar}>
@@ -177,7 +172,7 @@ export default function LogIn() {
             label="Remember me"
           />*/}
           {values.isUserAuth ?
-             <Redirect to="/users" /> :
+             <Redirect to="/profile" /> :
             <Redirect to="/" /> 
           }
           <Button
@@ -192,8 +187,6 @@ export default function LogIn() {
             
             //onClick = {() => setOpenPopup(false)}
           >
-
-
             Sign In
           </Button>
           
