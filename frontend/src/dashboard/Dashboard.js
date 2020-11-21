@@ -9,6 +9,7 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -19,7 +20,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListItems';
 import Orders from './Orders';
-
+import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -111,6 +113,12 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleLogout = event => {
+    event.preventDefault();
+    localStorage.removeItem('token')
+    localStorage.removeItem('name')
+    return <Redirect to="/" />;
+  }; 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -128,13 +136,14 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Discov
+            Grocery Inventory Management System GIMS
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
+          <Button color="inherit" onClick={handleLogout}>Logout</Button> 
         </Toolbar>
       </AppBar>
       <Drawer

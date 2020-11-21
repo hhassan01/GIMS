@@ -1747,3 +1747,391 @@ Processing by Api::V1::SessionsController#create as HTML
 Completed 200 OK in 148ms (Views: 0.4ms | ActiveRecord: 0.6ms)
 
 
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:18:24 +0500
+  [1m[35m (112.1ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-2@gims.com", "password"=>"[FILTERED]", "session"=>{"email"=>"example-2@gims.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-2@gims.com' LIMIT 1[0m
+Completed 200 OK in 290ms (Views: 0.7ms | ActiveRecord: 51.9ms)
+
+
+Started GET "/api/v1/users.json" for 127.0.0.1 at 2020-11-18 23:18:26 +0500
+Processing by Api::V1::UsersController#index as JSON
+  [1m[36mUser Load (2.7ms)[0m  [1m[34mSELECT `users`.* FROM `users`[0m
+Completed 200 OK in 53ms (Views: 49.7ms | ActiveRecord: 2.7ms)
+
+
+Started GET "/api/v1/users.json" for 127.0.0.1 at 2020-11-18 23:20:08 +0500
+  [1m[35m (0.5ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::UsersController#index as JSON
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT `users`.* FROM `users`[0m
+Completed 200 OK in 109ms (Views: 59.0ms | ActiveRecord: 10.5ms)
+
+
+Started GET "/api/v1/users.json" for 127.0.0.1 at 2020-11-18 23:23:19 +0500
+Processing by Api::V1::UsersController#index as JSON
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT `users`.* FROM `users`[0m
+Completed 200 OK in 46ms (Views: 44.7ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/api/v1/users.json" for 127.0.0.1 at 2020-11-18 23:23:35 +0500
+Processing by Api::V1::UsersController#index as JSON
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT `users`.* FROM `users`[0m
+Completed 200 OK in 50ms (Views: 48.6ms | ActiveRecord: 0.6ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:23:54 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-3@gims.com", "password"=>"[FILTERED]", "session"=>{"email"=>"example-3@gims.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-3@gims.com' LIMIT 1[0m
+Completed 200 OK in 131ms (Views: 0.2ms | ActiveRecord: 0.7ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:25:02 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-4@gims.com", "password"=>"[FILTERED]", "session"=>{"email"=>"example-4@gims.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-4@gims.com' LIMIT 1[0m
+Completed 200 OK in 139ms (Views: 0.4ms | ActiveRecord: 0.5ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:25:46 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-2@gims.com", "password"=>"[FILTERED]", "session"=>{"email"=>"example-2@gims.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-2@gims.com' LIMIT 1[0m
+Completed 401 Unauthorized in 131ms (Views: 0.2ms | ActiveRecord: 0.5ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:25:50 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"password"=>"[FILTERED]", "session"=>{"password"=>"[FILTERED]"}}
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `downcase' for nil:NilClass):
+  
+app/controllers/api/v1/sessions_controller.rb:11:in `create'
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:25:52 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"session"=>{}}
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `downcase' for nil:NilClass):
+  
+app/controllers/api/v1/sessions_controller.rb:11:in `create'
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:25:58 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"password"=>"[FILTERED]", "session"=>{"password"=>"[FILTERED]"}}
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `downcase' for nil:NilClass):
+  
+app/controllers/api/v1/sessions_controller.rb:11:in `create'
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:25:59 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"session"=>{}}
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `downcase' for nil:NilClass):
+  
+app/controllers/api/v1/sessions_controller.rb:11:in `create'
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:38:48 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-5@gims.com", "password"=>"[FILTERED]", "session"=>{"email"=>"example-5@gims.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-5@gims.com' LIMIT 1[0m
+Completed 200 OK in 176ms (Views: 0.3ms | ActiveRecord: 4.1ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:40:12 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-6@gims.org", "password"=>"[FILTERED]", "session"=>{"email"=>"example-6@gims.org", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (1.7ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-6@gims.org' LIMIT 1[0m
+Completed 401 Unauthorized in 25ms (Views: 0.3ms | ActiveRecord: 2.7ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:40:24 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-9@gims.org", "session"=>{"email"=>"example-9@gims.org"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-9@gims.org' LIMIT 1[0m
+Completed 401 Unauthorized in 3ms (Views: 0.2ms | ActiveRecord: 0.5ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:40:31 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-9@gims.com", "session"=>{"email"=>"example-9@gims.com"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-9@gims.com' LIMIT 1[0m
+Completed 401 Unauthorized in 149ms (Views: 0.3ms | ActiveRecord: 1.4ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:40:34 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"session"=>{}}
+Completed 500 Internal Server Error in 4ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `downcase' for nil:NilClass):
+  
+app/controllers/api/v1/sessions_controller.rb:11:in `create'
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:41:33 +0500
+  [1m[35m (0.6ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (2.8ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-6@gims.com", "password"=>"[FILTERED]", "session"=>{"email"=>"example-6@gims.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-6@gims.com' LIMIT 1[0m
+Completed 200 OK in 200ms (Views: 0.7ms | ActiveRecord: 3.2ms)
+
+
+Started DELETE "/api/v1/logout" for 127.0.0.1 at 2020-11-18 23:41:38 +0500
+  [1m[35m (0.4ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::SessionsController#destroy as HTML
+Filter chain halted as :authorize_request rendered or redirected
+Completed 401 Unauthorized in 5ms (Views: 1.4ms | ActiveRecord: 0.0ms)
+
+
+Started DELETE "/api/v1/logout" for 127.0.0.1 at 2020-11-18 23:42:49 +0500
+Processing by Api::V1::SessionsController#destroy as HTML
+Completed 500 Internal Server Error in 303ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (undefined local variable or method `cookies' for #<Api::V1::SessionsController:0x0000558e4dc032e0>):
+  
+app/helpers/sessions_helper.rb:23:in `current_user'
+app/helpers/sessions_helper.rb:33:in `logged_in?'
+app/controllers/api/v1/sessions_controller.rb:37:in `destroy'
+Started DELETE "/api/v1/logout" for 127.0.0.1 at 2020-11-18 23:42:51 +0500
+Processing by Api::V1::SessionsController#destroy as HTML
+Completed 500 Internal Server Error in 365ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (undefined local variable or method `cookies' for #<Api::V1::SessionsController:0x0000558e4d938600>):
+  
+app/helpers/sessions_helper.rb:23:in `current_user'
+app/helpers/sessions_helper.rb:33:in `logged_in?'
+app/controllers/api/v1/sessions_controller.rb:37:in `destroy'
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:47:06 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"admin@swatchmasters.com", "password"=>"[FILTERED]", "session"=>{"email"=>"admin@swatchmasters.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'admin@swatchmasters.com' LIMIT 1[0m
+Completed 401 Unauthorized in 27ms (Views: 0.4ms | ActiveRecord: 1.4ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:47:15 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-5@gims.com", "session"=>{"email"=>"example-5@gims.com"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-5@gims.com' LIMIT 1[0m
+Completed 401 Unauthorized in 191ms (Views: 0.4ms | ActiveRecord: 3.2ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:47:18 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"session"=>{}}
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `downcase' for nil:NilClass):
+  
+app/controllers/api/v1/sessions_controller.rb:11:in `create'
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:47:45 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-10@gims.com", "session"=>{"email"=>"example-10@gims.com"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-10@gims.com' LIMIT 1[0m
+Completed 401 Unauthorized in 139ms (Views: 0.4ms | ActiveRecord: 0.5ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-18 23:47:56 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"password"=>"[FILTERED]", "session"=>{"password"=>"[FILTERED]"}}
+Completed 500 Internal Server Error in 7ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `downcase' for nil:NilClass):
+  
+app/controllers/api/v1/sessions_controller.rb:11:in `create'
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-19 06:43:12 +0500
+  [1m[35m (254.5ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (14.2ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-2@gims.com", "password"=>"[FILTERED]", "session"=>{"email"=>"example-2@gims.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-2@gims.com' LIMIT 1[0m
+Completed 200 OK in 522ms (Views: 3.2ms | ActiveRecord: 149.2ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-19 06:52:00 +0500
+  [1m[35m (127.2ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-14@railstutorial.org", "password"=>"[FILTERED]", "session"=>{"email"=>"example-14@railstutorial.org", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-14@railstutorial.org' LIMIT 1[0m
+Completed 401 Unauthorized in 24ms (Views: 0.5ms | ActiveRecord: 1.8ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-19 06:52:05 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"session"=>{}}
+Completed 500 Internal Server Error in 4ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `downcase' for nil:NilClass):
+  
+app/controllers/api/v1/sessions_controller.rb:11:in `create'
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-19 06:52:18 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"example-14@gims.com", "password"=>"[FILTERED]", "session"=>{"email"=>"example-14@gims.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'example-14@gims.com' LIMIT 1[0m
+Completed 200 OK in 121ms (Views: 0.2ms | ActiveRecord: 0.5ms)
+
+
+Started POST "/api/v1/users" for 127.0.0.1 at 2020-11-19 19:08:23 +0500
+  [1m[35m (21.1ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::UsersController#create as HTML
+  Parameters: {"name"=>"Example User", "email"=>"userexample@gims.com", "password"=>"[FILTERED]", "passwordConfirmation"=>"[FILTERED]", "user"=>{"name"=>"Example User", "email"=>"userexample@gims.com"}}
+Unpermitted parameters: :passwordConfirmation, :user
+  [1m[35m (36.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `users` WHERE `users`.`email` = 'userexample@gims.com' LIMIT 1[0m
+  [1m[35mSQL (255.3ms)[0m  [1m[32mINSERT INTO `users` (`name`, `email`, `created_at`, `updated_at`, `password_digest`) VALUES ('Example User', 'userexample@gims.com', '2020-11-19 14:08:24', '2020-11-19 14:08:24', '$2a$10$l.JCVYFGMLLKnJ1Mttf1auUfdcvatZZgehfF.tLO3gqZoVxB5Foi.')[0m
+  [1m[35m (131.5ms)[0m  [1m[35mCOMMIT[0m
+Completed 200 OK in 612ms (Views: 1.3ms | ActiveRecord: 426.2ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-19 19:10:32 +0500
+  [1m[35m (108.0ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (11.0ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"exampleuser@gims.com", "password"=>"[FILTERED]", "session"=>{"email"=>"exampleuser@gims.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'exampleuser@gims.com' LIMIT 1[0m
+Completed 401 Unauthorized in 28ms (Views: 0.7ms | ActiveRecord: 2.6ms)
+
+
+Started POST "/api/v1/login" for 127.0.0.1 at 2020-11-19 19:10:58 +0500
+Processing by Api::V1::SessionsController#create as HTML
+  Parameters: {"email"=>"userexample@gims.com", "password"=>"[FILTERED]", "session"=>{"email"=>"userexample@gims.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`email` = 'userexample@gims.com' LIMIT 1[0m
+Completed 200 OK in 147ms (Views: 3.0ms | ActiveRecord: 0.6ms)
+
+
+  [1m[35m (106.0ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (15.4ms)[0m  [1m[34mSELECT  1 AS one FROM `users` WHERE `users`.`email` IS NULL LIMIT 1[0m
+  [1m[35m (0.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.5ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/api/v1/products" for 127.0.0.1 at 2020-11-22 01:57:59 +0500
+  [1m[35m (0.7ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::ProductsController#index as */*
+  [1m[36mProduct Load (1.4ms)[0m  [1m[34mSELECT `products`.* FROM `products`[0m
+Completed 200 OK in 18ms (Views: 4.2ms | ActiveRecord: 2.1ms)
+
+
+  [1m[36mProduct Load (0.3ms)[0m  [1m[34mSELECT  `products`.* FROM `products` LIMIT 11[0m
+  [1m[35m (0.7ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+Started POST "/api/v1/products?name=carrot&description=this%20is%20carrot&price=12&min_amount=10&user_id=2&category=%22this%22" for 127.0.0.1 at 2020-11-22 02:09:55 +0500
+Processing by Api::V1::ProductsController#create as */*
+  Parameters: {"name"=>"carrot", "description"=>"this is carrot", "price"=>"12", "min_amount"=>"10", "user_id"=>"2", "category"=>"\"this\""}
+Completed 400 Bad Request in 7ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: product):
+  
+app/controllers/api/v1/products_controller.rb:76:in `product_params'
+app/controllers/api/v1/products_controller.rb:27:in `create'
+Started POST "/api/v1/products?name=carrot&description=this%20is%20carrot&price=12&min_amount=10&user_id=2&category=%22this%22" for 127.0.0.1 at 2020-11-22 02:10:32 +0500
+  [1m[35m (0.6ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Processing by Api::V1::ProductsController#create as */*
+  Parameters: {"name"=>"carrot", "description"=>"this is carrot", "price"=>"12", "min_amount"=>"10", "user_id"=>"2", "category"=>"\"this\""}
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 2 LIMIT 1[0m
+  [1m[35mSQL (47.6ms)[0m  [1m[32mINSERT INTO `products` (`name`, `description`, `price`, `min_amount`, `created_at`, `updated_at`, `user_id`, `category`) VALUES ('carrot', 'this is carrot', 12.0, 10, '2020-11-21 21:10:33', '2020-11-21 21:10:33', 2, '\"this\"')[0m
+  [1m[35m (50.7ms)[0m  [1m[35mCOMMIT[0m
+Completed 200 OK in 223ms (Views: 1.3ms | ActiveRecord: 103.4ms)
+
+
+Started GET "/api/v1/products" for 127.0.0.1 at 2020-11-22 02:11:00 +0500
+Processing by Api::V1::ProductsController#index as */*
+  [1m[36mProduct Load (0.5ms)[0m  [1m[34mSELECT `products`.* FROM `products`[0m
+Completed 200 OK in 4ms (Views: 3.2ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/api/v1/products/1" for 127.0.0.1 at 2020-11-22 02:12:31 +0500
+Processing by Api::V1::ProductsController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProduct Load (0.6ms)[0m  [1m[34mSELECT  `products`.* FROM `products` WHERE `products`.`id` = 1 LIMIT 1[0m
+Completed 200 OK in 4ms (Views: 1.0ms | ActiveRecord: 0.6ms)
+
+
+Started POST "/api/v1/products?name=tamato&description=this%20is%20tamater&price=16&min_amount=12&user_id=2&category=%22fruitish%22" for 127.0.0.1 at 2020-11-22 02:13:17 +0500
+Processing by Api::V1::ProductsController#create as */*
+  Parameters: {"name"=>"tamato", "description"=>"this is tamater", "price"=>"16", "min_amount"=>"12", "user_id"=>"2", "category"=>"\"fruitish\""}
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 2 LIMIT 1[0m
+  [1m[35mSQL (3.3ms)[0m  [1m[32mINSERT INTO `products` (`name`, `description`, `price`, `min_amount`, `created_at`, `updated_at`, `user_id`, `category`) VALUES ('tamato', 'this is tamater', 16.0, 12, '2020-11-21 21:13:17', '2020-11-21 21:13:17', 2, '\"fruitish\"')[0m
+  [1m[35m (121.4ms)[0m  [1m[35mCOMMIT[0m
+Completed 200 OK in 135ms (Views: 1.5ms | ActiveRecord: 125.6ms)
+
+
+Started GET "/api/v1/products/1" for 127.0.0.1 at 2020-11-22 02:13:31 +0500
+Processing by Api::V1::ProductsController#show as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mProduct Load (0.5ms)[0m  [1m[34mSELECT  `products`.* FROM `products` WHERE `products`.`id` = 1 LIMIT 1[0m
+Completed 200 OK in 2ms (Views: 0.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/api/v1/products/2" for 127.0.0.1 at 2020-11-22 02:13:36 +0500
+Processing by Api::V1::ProductsController#show as */*
+  Parameters: {"id"=>"2"}
+  [1m[36mProduct Load (0.4ms)[0m  [1m[34mSELECT  `products`.* FROM `products` WHERE `products`.`id` = 2 LIMIT 1[0m
+Completed 200 OK in 3ms (Views: 0.8ms | ActiveRecord: 0.4ms)
+
+
+Started POST "/api/v1/products?name=tamato&description=this%20is%20tamater&min_amount=12&user_id=2&category=%22fruitish%22" for 127.0.0.1 at 2020-11-22 02:18:18 +0500
+Processing by Api::V1::ProductsController#create as */*
+  Parameters: {"name"=>"tamato", "description"=>"this is tamater", "min_amount"=>"12", "user_id"=>"2", "category"=>"\"fruitish\""}
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/home/hhassan/projects/GIMS/gimsAPI/app/models/product.rb:7: syntax error, unexpected symbol literal, expecting `do' or '{' or '('
+	validates :price, presence: true
+	          ^
+):
+  
+app/models/product.rb:7: syntax error, unexpected symbol literal, expecting `do' or '{' or '('
+app/controllers/api/v1/products_controller.rb:27:in `create'
+Started POST "/api/v1/products?name=tamato&description=this%20is%20tamater&min_amount=12&user_id=2&category=%22fruitish%22" for 127.0.0.1 at 2020-11-22 02:18:47 +0500
+Processing by Api::V1::ProductsController#create as */*
+  Parameters: {"name"=>"tamato", "description"=>"this is tamater", "min_amount"=>"12", "user_id"=>"2", "category"=>"\"fruitish\""}
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 2 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+Completed 422 Unprocessable Entity in 858ms (Views: 0.2ms | ActiveRecord: 7.8ms)
+
+
+Started POST "/api/v1/products?name=tamato&price=16&min_amount=12&user_id=2&category=%22fruitish%22" for 127.0.0.1 at 2020-11-22 02:19:11 +0500
+Processing by Api::V1::ProductsController#create as */*
+  Parameters: {"name"=>"tamato", "price"=>"16", "min_amount"=>"12", "user_id"=>"2", "category"=>"\"fruitish\""}
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  `users`.* FROM `users` WHERE `users`.`id` = 2 LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `min_amount`, `created_at`, `updated_at`, `user_id`, `category`) VALUES ('tamato', 16.0, 12, '2020-11-21 21:19:11', '2020-11-21 21:19:11', 2, '\"fruitish\"')[0m
+  [1m[35m (37.9ms)[0m  [1m[35mCOMMIT[0m
+Completed 200 OK in 150ms (Views: 1.0ms | ActiveRecord: 43.8ms)
+
+
