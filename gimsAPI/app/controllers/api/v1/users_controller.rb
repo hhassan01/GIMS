@@ -23,7 +23,7 @@ module Api
 				render json: {
 					status: 'SUCCESS', 
 					message:'Listed users', 
-					data: @users
+					data: @user
 				}, status: :ok
 			end
 
