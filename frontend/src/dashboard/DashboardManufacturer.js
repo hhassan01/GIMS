@@ -120,6 +120,12 @@ export default function Dashboard() {
   const [values, setValues] = React.useState({
     log_success: false
   });
+    const handleLogOut = event =>{
+    event.preventDefault();
+    localStorage.clear();
+    setValues({log_success:false});
+    window.location.href ="/"
+  };
   const handleProducts = event => {
      const timer = setTimeout(() => setValues({log_success:true}), 5);
     return () => setValues({log_success:true});
@@ -158,7 +164,7 @@ export default function Dashboard() {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Button color="inherit">Logout</Button> 
+          <Button color="inherit" onClick = {handleLogOut}>Logout</Button> 
         </Toolbar>
       </AppBar>
       <Drawer
@@ -257,7 +263,7 @@ return(
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Button color="inherit">Logout</Button> 
+          <Button color="inherit" onClick = {handleLogOut}>Logout</Button>
         </Toolbar>
       </AppBar>
       <Drawer

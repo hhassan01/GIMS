@@ -34,6 +34,7 @@ import Button from '@material-ui/core/Button';
 import Manufacturers from './Manufacturers';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios'
+import { Redirect } from "react-router-dom"; 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -123,6 +124,14 @@ export default function Dashboard() {
     add_success: false,
     data: []
   });
+
+  const handleLogOut = event =>{
+    event.preventDefault();
+    localStorage.clear();
+    setValues({log_success:false});
+    setValues({add_success:false});
+    window.location.href ="/"
+  };
   const handleManufacturer = () => {
     setValues({log_success:true})
     //setOpen(true);
@@ -158,7 +167,7 @@ export default function Dashboard() {
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             <img src={gr} height="30px"/>
-            Grocery Management System GIMS
+            Grocery Inventory Management System GIMS
           </Typography>
           <IconButton color="inherit">
             <Badge color="secondary">
@@ -166,7 +175,7 @@ export default function Dashboard() {
             </Badge>
 
           </IconButton>
-          <Button color="inherit">Logout</Button>
+          <Button color="inherit" onClick = {handleLogOut}>Logout</Button>
           
         </Toolbar>
       </AppBar>
@@ -243,7 +252,7 @@ if (values.add_success)
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             <img src={gr} height="30px"/>
-            Grocery Management System GIMS
+            Grocery Inventory Management System GIMS
           </Typography>
           <IconButton color="inherit">
             <Badge color="secondary">
@@ -251,7 +260,7 @@ if (values.add_success)
             </Badge>
 
           </IconButton>
-          <Button color="inherit">Logout</Button>
+          <Button color="inherit" onClick = {handleLogOut}>Logout</Button>
           
         </Toolbar>
       </AppBar>
@@ -334,14 +343,14 @@ if (values.add_success)
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             <img src={gr} height="30px"/>
-            Grocery Management System GIMS
+            Grocery Inventory Management System GIMS
           </Typography>
           <IconButton color="inherit">
             <Badge color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Button color="inherit">Logout</Button>
+          <Button color="inherit" onClick= {handleLogOut}>Logout</Button>
         </Toolbar>
       </AppBar>
       <Drawer
