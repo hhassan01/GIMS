@@ -1,7 +1,7 @@
 module Api
 	module V1
 		class SessionsController < ApplicationController		
-			before_action :authorize_request, except: :create
+			before_action :authorize_request, except: [:create, :destroy]
 
 			def new
 			end
