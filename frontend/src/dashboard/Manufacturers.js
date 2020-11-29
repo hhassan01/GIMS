@@ -8,20 +8,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField'; 
-
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import axios from "axios";
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
   return { id, date, name, shipTo, paymentMethod, amount };
 }
-
-const rows = [
-  createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-  createData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
-  createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
-];
 
 const useStyles = makeStyles(theme => ({
   seeMore: {
@@ -34,24 +27,14 @@ const useStyles = makeStyles(theme => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(10),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   form: {
-    width: '100%',
-    marginTop: theme.spacing(1),
+     marginTop: theme.spacing(1),
+    width: '105%',
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  center: {
-    display: flex,
-    justify-content: center,
-    align-items: center,
-    height:'100vh',  
-}
 }));
 
 export default function Manufacturers() {
@@ -59,8 +42,49 @@ export default function Manufacturers() {
 
 
   const [values, setValues] = React.useState({
-    add_success: false
+    add_success: false,
+    name: '',
+    email: '',
+    password: '',
+    user_list: []
   });
+
+  React.useEffect(() => {
+    // GET request using fetch inside useEffect React hook
+    axios.get('api/v1/users').then(response => {
+      //console.log(response.data.data)
+      setValues({user_list: response.data.data})
+      console.log(values.data)
+    })
+  }, []);
+
+  const params = {
+    name: values.name,
+    email: values.email,
+    user_type: "Manufacturer",
+    password: values.password,
+  }
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    axios.post('/api/v1/users', params, {
+      headers: {
+        'content-type': 'application/json',
+      },
+    }
+    )
+    .then(response => {
+      console.log(response.data)
+    })
+  /*  .catch(error => console.log(error),
+      setValues({error:true})
+      )};*/ 
+  }
+
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+
   const addManufacturer = () => {
     setValues({add_success:true})
   };
@@ -68,70 +92,89 @@ export default function Manufacturers() {
   if (values.add_success)
   return (
     <React.Fragment>
-    <form align= "left">
-  </form>
-  <Button color="inherit"
-  onClick={addManufacturer}>Add Manufacturer</Button> 
-    <form className={classes.root} noValidate autoComplete="off">
-    <div>
-    <TextField 
-    margin="normal"
-    required
-    id="outlined-basic"
-    label="Name"
-    variant="outlined"/>
-    </div>
-    <div>
-    <TextField 
-    margin="normal" 
-    required 
-    id="outlined-basic" 
-    label="ID" 
-    variant="outlined"  />
-    </div>
-    <div>
-    <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-    </div>
-    
-    </form>
-    <Button
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5" align='center'>
+          Add Manufacturer
+        </Typography>
+        <form 
+          className={classes.root} 
+          noValidate 
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
+          <div>
+            <TextField 
+              margin="normal"
+              required
+              id="outlined-basic"
+              label="Name"
+              name="Name"
+              id="Name"
+              variant="outlined" 
+              onChange={handleChange('name')}
+              autoFocus
+            />
+          </div>
+          <div>
+            <TextField 
+              id="email" 
+              margin="normal" 
+              label="Email" 
+              name="Email"
+              variant="outlined"
+              required  
+              onChange={handleChange('email')}
+            />
+          </div>
+          <div>
+            <TextField 
+              id="Password" 
+              margin="normal" 
+              label="Password"
+              name="Password" 
+              variant="outlined"
+              type="Password" 
+              required  
+              onChange={handleChange('password')}
+            />
+          </div>
+        <div>
+          <Button
             type="submit"
             variant="contained"
             color="primary"
-            align = "left"
-            className={classes.submit}
-          >
-            Add
-          </Button>  
-    </React.Fragment>
-  );
+            className={classes.form}
+          >Add</Button>  
+        </div>
+      </form>
+    </div>
+  </React.Fragment>
+);
 return (
   <React.Fragment>
-  <form align= "right">
-<Button color="inherit" onClick={addManufacturer} >Add Manufacturer</Button> 
-</form>
-    <Title>Products</Title>
+    <form align= "right">
+      <Button color="inherit" onClick={addManufacturer} >Add Manufacturer</Button> 
+    </form>
+    <Title>User List</Title>
     <Table size="small">
       <TableHead>
         <TableRow>
-          <TableCell>Date</TableCell>
           <TableCell>Name</TableCell>
-          <TableCell>Ship To</TableCell>
-          <TableCell>Payment Method</TableCell>
-          <TableCell align="right">Sale Amount</TableCell>
+          <TableCell>User Type</TableCell>
+          <TableCell>Email</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        {rows.map(row => (
-          <TableRow key={row.id}>
-            <TableCell>{row.date}</TableCell>
-            <TableCell>{row.name}</TableCell>
-            <TableCell>{row.shipTo}</TableCell>
-            <TableCell>{row.paymentMethod}</TableCell>
-            <TableCell align="right">{row.amount}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
+          {
+            values.user_list && values.user_list.map(row => (
+            <TableRow key={row.id}>
+              <TableCell>{row.name}</TableCell>
+              <TableCell>{row.user_type}</TableCell>
+              <TableCell>{row.email}</TableCell>
+              <TableCell align="right">{row.amount}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
     </Table>
     <div className={classes.seeMore}>
       <Link color="primary" href="javascript:;">

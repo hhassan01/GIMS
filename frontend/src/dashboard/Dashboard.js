@@ -9,7 +9,6 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -19,7 +18,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './ListItems';
-<<<<<<< HEAD
 import gr from './gr.svg';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -35,12 +33,7 @@ import StorefrontIcon from '@material-ui/icons/Storefront';
 import Button from '@material-ui/core/Button';
 import Manufacturers from './Manufacturers';
 import TextField from '@material-ui/core/TextField';
-=======
-import Orders from './Orders';
-import axios from "axios";
-import { Redirect } from "react-router-dom";
-
->>>>>>> f0e9cb077542955924d9d84c8756b235c21c0e4c
+import axios from 'axios'
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -127,7 +120,8 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const [values, setValues] = React.useState({
     log_success: false,
-    add_success: false
+    add_success: false,
+    data: []
   });
   const handleManufacturer = () => {
     setValues({log_success:true})
@@ -145,12 +139,6 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const handleLogout = event => {
-    event.preventDefault();
-    localStorage.removeItem('token')
-    localStorage.removeItem('name')
-    return <Redirect to="/" />;
-  }; 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   if (values.log_success)
@@ -169,25 +157,17 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-<<<<<<< HEAD
             <img src={gr} height="30px"/>
             Grocery Management System GIMS
-=======
-            Grocery Inventory Management System GIMS
->>>>>>> f0e9cb077542955924d9d84c8756b235c21c0e4c
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            <Badge color="secondary">
               <NotificationsIcon />
             </Badge>
 
           </IconButton>
-<<<<<<< HEAD
           <Button color="inherit">Logout</Button>
           
-=======
-          <Button color="inherit" onClick={handleLogout}>Logout</Button> 
->>>>>>> f0e9cb077542955924d9d84c8756b235c21c0e4c
         </Toolbar>
       </AppBar>
       <Drawer
@@ -208,7 +188,7 @@ export default function Dashboard() {
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Add Manufacturer" />
+      <ListItemText primary="Dashboard" />
     </ListItem>
     <ListItem button onClick={handleManufacturer} >
       <ListItemIcon>
@@ -227,12 +207,6 @@ export default function Dashboard() {
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Reports" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Integrations" />
     </ListItem>
   </div></List>
         <Divider />
@@ -272,7 +246,7 @@ if (values.add_success)
             Grocery Management System GIMS
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            <Badge color="secondary">
               <NotificationsIcon />
             </Badge>
 
@@ -296,11 +270,11 @@ if (values.add_success)
         <Divider />
 
         <List><div>
-    <ListItem button onClick={addManufacturer}>
+    <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Add Manufacturer" />
+      <ListItemText primary="Dashboard" />
     </ListItem>
     <ListItem button onClick={handleManufacturer} >
       <ListItemIcon>
@@ -319,12 +293,6 @@ if (values.add_success)
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Reports" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Integrations" />
     </ListItem>
   </div></List>
         <Divider />
@@ -369,7 +337,7 @@ if (values.add_success)
             Grocery Management System GIMS
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            <Badge color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -394,7 +362,7 @@ if (values.add_success)
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Add Manufacturer" />
+      <ListItemText primary="Dashboard" />
     </ListItem>
     <ListItem button onClick={handleManufacturer} >
       <ListItemIcon>
@@ -413,12 +381,6 @@ if (values.add_success)
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Reports" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Integrations" />
     </ListItem>
   </div></List>
         <Divider />

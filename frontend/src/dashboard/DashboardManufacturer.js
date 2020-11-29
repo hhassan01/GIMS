@@ -31,7 +31,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-
+import gr from './gr.svg';
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -150,6 +150,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          <img src={gr} height="30px"/>
             Grocery Inventory Management System GIMS
           </Typography>
           <IconButton color="inherit">
@@ -248,6 +249,7 @@ return(
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          <img src={gr} height="30px"/>
             Grocery Inventory Management System GIMS
           </Typography>
           <IconButton color="inherit">
