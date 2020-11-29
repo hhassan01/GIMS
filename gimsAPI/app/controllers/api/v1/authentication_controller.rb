@@ -14,7 +14,9 @@ module Api
 						token: token, 
 						exp: time.strftime("%m-%d-%Y %H:%M"),
 						email: @user.email,
-						name: @user.name 
+						name: @user.name,
+						user_id: @user.id,
+						user_type: @user.user_type
 					}, status: :ok
 				else
 					render json: { error: 'unauthorized' }, status: :unauthorized

@@ -94,6 +94,7 @@ export default function LogIn() {
       console.log(response.data)
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('name', response.data.name)
+      localStorage.setItem('user_id', response.data.user_id)
       setValues({log_success:true})
       setValues({isUserAuth:true}) //check syntax
 
