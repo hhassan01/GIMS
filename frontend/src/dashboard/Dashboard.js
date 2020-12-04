@@ -1,5 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
+
+//Material Imports
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -33,8 +35,11 @@ import StorefrontIcon from '@material-ui/icons/Storefront';
 import Button from '@material-ui/core/Button';
 import Manufacturers from './Manufacturers';
 import TextField from '@material-ui/core/TextField';
+
+//Axious Impoera
 import axios from 'axios'
 import { Redirect } from "react-router-dom"; 
+//import ManufacturersList from '/DashboardManufacturer'
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({

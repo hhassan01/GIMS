@@ -50,11 +50,8 @@ export default function Manufacturers() {
   });
 
   React.useEffect(() => {
-    // GET request using fetch inside useEffect React hook
     axios.get('api/v1/users').then(response => {
-      //console.log(response.data.data)
       setValues({user_list: response.data.data})
-      console.log(values.data)
     })
   }, []);
 
@@ -115,6 +112,7 @@ export default function Manufacturers() {
               autoFocus
             />
           </div>
+
           <div>
             <TextField 
               id="email" 
@@ -126,6 +124,7 @@ export default function Manufacturers() {
               onChange={handleChange('email')}
             />
           </div>
+  
           <div>
             <TextField 
               id="Password" 
@@ -138,24 +137,31 @@ export default function Manufacturers() {
               onChange={handleChange('password')}
             />
           </div>
-        <div>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.form}
-          >Add</Button>  
-        </div>
-      </form>
-    </div>
-  </React.Fragment>
-);
+   
+          <div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.form}
+            >Add</Button>  
+          </div>
+        </form>
+      </div>
+    </React.Fragment>
+  );
 return (
   <React.Fragment>
-    <form align= "right">
-      <Button color="inherit" onClick={addManufacturer} >Add Manufacturer</Button> 
+    <form align="right">
+      <Button 
+        align= "right" 
+        color="inherit" 
+        onClick={addManufacturer}
+      >Add Manufacturer</Button> 
     </form>
+    
     <Title>User List</Title>
+    
     <Table size="small">
       <TableHead>
         <TableRow>
@@ -165,21 +171,22 @@ return (
         </TableRow>
       </TableHead>
       <TableBody>
-          {
-            values.user_list && values.user_list.map(row => (
-            <TableRow key={row.id}>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.user_type}</TableCell>
-              <TableCell>{row.email}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        {
+          values.user_list && values.user_list
+            .filter(user => user.user_type == "Manufacturer")
+            .map(row => (
+              <TableRow key={row.id}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.user_type}</TableCell>
+                <TableCell>{row.email}</TableCell>
+                <TableCell align="right">{row.amount}</TableCell>
+              </TableRow>
+          ) ) }
+      </TableBody>
     </Table>
+    
     <div className={classes.seeMore}>
-      <Link color="primary" href="javascript:;">
-        See more orders
-      </Link>
+      <Link color="primary" href="javascript:;">See more orders</Link>
     </div>
   </React.Fragment>
 );

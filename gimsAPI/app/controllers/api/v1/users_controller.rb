@@ -4,7 +4,8 @@ module Api
 			#before_action :logged_in_user,    only:   [:edit, :index, :destroy]
 			#before_action :correct_user,      only:   [:edit, :update]
 			#before_action :admin_user,        only:   [:destroy]
-			before_action :authorize_request, except: [:create, :index, :delete]
+			before_action :authorize_request, except: [:create, :index, 
+												:delete]
 			#helper_method :cookies	
 
 			def index

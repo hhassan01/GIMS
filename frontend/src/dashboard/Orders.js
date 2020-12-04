@@ -54,20 +54,29 @@ export default function Orders() {
   const classes = useStyles();
   
   const [values, setValues] = React.useState({
-    log_success: false,
     item:'',
     quantity: '',
     price: '',
     category: '',
-    product_list: ''
+    product_list: '',
+    log_success: false,
+
+    product_added: false,
   });
+
+  React.useEffect(() => {
+    axios.get('api/v1/products')
+      .then(response => {
+        setValues({product_list: response.data.data})
+      })
+  }, []);
   
   const params = {
     name: values.name,
     price: values.price,
     min_amount: values.min_amount,
     category: values.category,
-    user_id: localStorage.getItem('user_id') || null
+    user_id: localStorage.getItem('user_id')
   }
   
   const successful = React.useState()
@@ -78,121 +87,142 @@ export default function Orders() {
       headers: {
         'content-type': 'application/json',
       },
-    }
-    )
-    .then(response => {
-
-      console.log(response.data)
-//      localStorage.setItem('token', response.data.token)
-//      localStorage.setItem('name', response.data.name)
-
+    })
+      .then(response => {
+        console.log(response.data)
+        setValues({
+          product_added: true,
+        }, () => {setTimeout(() => setValues({
+          product_added: false
+        }))}, 4000)
+        setValues({log_success: true})
     })
   }; 
 
-  React.useEffect(() => {
-    axios.get('api/v1/products').then(response => {
-      console.log(response.data.data)
-      setValues({product_list: response.data.data})
-      //console.log(values.product_list)
-    })
-  }, []);
+  const u_id = localStorage.getItem('user_id')
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
-  const handleAddProducts =event => {
-    
+  
+  const handleAddProducts = event => {
     const timer = setTimeout(() => setValues({log_success:true}), 4000);
     return () => clearTimeout(timer);
-
   };
+
   if(values.log_success)
   return (
     <React.Fragment>
-    <div className={classes.paper}>
-    <form align= "right" >
-  </form>
-   <Button onClick={handleAddProducts} color="inherit" ></Button> 
-  <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmitAddItem}>
+      <div className={classes.paper}>
+        <form align= "right" ></form>
+        <Button onClick={handleAddProducts} color="inherit" ></Button> 
+        <form 
+          className={classes.root} 
+          noValidate 
+          autoComplete="off" 
+          onSubmit={handleSubmitAddItem}
+        >
         <Typography component="h1" variant="h5" align='center'>
           Add Product
         </Typography>
-<div>
-        <TextField 
-          id="name" 
-          label="Product Name" 
-          variant="outlined"
-          name="name"
-          value={values.name}
-          required
-          autoFocus
-          onChange={handleChange('name')}
-        />
-</div>
-<div>
-  <TextField 
-    id="category" label="Category" variant="outlined"
+        
+        <div>
+          <TextField 
+            id="name" 
+            label="Product Name" 
+            variant="outlined"
+            name="name"
+            value={values.name}
+            required
+            autoFocus
+            onChange={handleChange('name')}
+          />
+        </div>
+        
+        <div>
+          <TextField 
+            id="category" 
+            label="Category" 
+            variant="outlined"
             name="category"
             value={values.category}
             required
             autoFocus
-            onChange={handleChange('category')}/>
-</div>
-<div>
-  <TextField id="min_amount" label="Quantity" variant="outlined" 
-            name="min_amount"
-            value={values.quantity}
-            required
-            onChange={handleChange('min_amount')}/>
-</div>
-<div>
-  <TextField id="price" label="Price" variant="outlined"
-            name="price"
-            value={values.price}
-            required
-            autoFocus
-            onChange={handleChange('price')}/>
-</div>
-<div>
-    <Button type="submit" onClick={() => {
-    }} variant="contained" color="primary" className={classes.form}> Add</Button>
-</div>
-</form>
-</div>
-    </React.Fragment>
-  );
-  return(
-
-    <React.Fragment>
-    <form align= "right">
-  <Button onClick={handleAddProducts} color="inherit" >Add Products</Button> 
-  </form>
-      <Title>Products</Title>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Minimum Amount</TableCell>
-            <TableCell>Category</TableCell>
-            <TableCell>Price</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {values.product_list && values.product_list.map(row => (
-            <TableRow key={row.id}>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.min_amount}</TableCell>
-              <TableCell>{row.category}</TableCell>
-              <TableCell>{row.price}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="javascript:;">
-          See more orders
-        </Link>
+            onChange={handleChange('category')}
+          />
+        </div>
+      <div>
+        <TextField 
+          id="min_amount" 
+          label="Quantity" 
+          variant="outlined" 
+          name="min_amount"
+          value={values.quantity}
+          required
+          onChange={handleChange('min_amount')}
+        />
       </div>
-    </React.Fragment>
-  );
+      
+      <div>
+        <TextField 
+          id="price" 
+          label="Price" 
+          variant="outlined"
+          name="price"
+          value={values.price}
+          required
+          autoFocus
+          onChange={handleChange('price')}
+        />
+      </div>
+      
+      <div>
+        <Button 
+          type="submit" 
+          onClick={() => {}} 
+          variant="contained" 
+          color="primary" 
+          className={classes.form}>Add</Button>
+      </div>
+    </form>
+  </div>
+</React.Fragment>
+);
+
+return(
+  <React.Fragment>
+    <form align= "right">
+      <Button onClick={handleAddProducts} color="inherit" >Add Products</Button> 
+    </form>
+    <Title>Products</Title>
+    <Table size="small">
+      <TableHead>
+        <TableRow>
+          <TableCell>Name</TableCell>
+          <TableCell>Minimum Amount</TableCell>
+          <TableCell>Category</TableCell>
+          <TableCell>Price</TableCell>
+        </TableRow>
+      </TableHead>
+        
+      <TableBody>
+        {
+          values.product_list && values.product_list
+            .filter(prod => prod.user_id == u_id)  
+            .map(row => (
+              <TableRow key={row.id}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.min_amount}</TableCell>
+                <TableCell>{row.category}</TableCell>
+                <TableCell>{row.price}</TableCell>
+              </TableRow>
+          ) ) }
+      </TableBody>
+    </Table>
+    
+    <div className={classes.seeMore}>
+      <Link color="primary" href="javascript:;">See more orders</Link>
+    </div>
+  </React.Fragment>
+);
 }
