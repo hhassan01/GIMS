@@ -66,43 +66,56 @@ const useStyles = makeStyles(theme => ({
 
 export default function LogIn() {
   const classes = useStyles();
+  
   const [values, setValues] = React.useState({
     email: '',
     password: '',
     log_success: false,
-    error: false,
-    isUserAuth: false
+    log_error: false,
+    //isUserAuth: false
   });
 
+  //Need to find what it is used for. Otherwise remove
   const [openPopup, setOpenPopup] = React.useState(false);
+  
   const params = {
     email: values.email,
     password: values.password
   }
-  const successful = React.useState()
-
+  
+  //const successful = React.useState()
+  
   const handleLogin = event => {
     event.preventDefault();
     axios.post('/api/v1/login', params, {
       headers: {
         'content-type': 'application/json',
       },
-    }
-    )
-    .then(response => {
-
-      console.log(response.data)
-      localStorage.setItem('token', response.data.token)
-      localStorage.setItem('name', response.data.name)
-      localStorage.setItem('user_id', response.data.user_id)
-      setValues({log_success:true})
-      setValues({isUserAuth:true}) //check syntax
-
     })
-    .catch(error => console.log(error),
-      setValues({error:true})
-      )
-  }; 
+      .then(response => {
+        console.log(response.data)
+        localStorage.setItem('token', response.data.token)
+        localStorage.setItem('name', response.data.name)
+        localStorage.setItem('user_id', response.data.user_id)
+        localStorage.setItem('user_type', response.data.user_type)
+        
+        setValues({
+          log_success: true,
+          isUserAuth: true
+        }, () => {setTimeout(() => setValues({
+          log_success: false,
+          isUserAuth: false
+        }))}, 4000)
+      }
+    )
+      .catch(error => {
+        console.log(error)
+        setValues({log_error: true}, () => {
+          setTimeout(() => setValues({log_error: false}))
+        }, 4000)
+      }
+    )
+  };
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -118,8 +131,9 @@ export default function LogIn() {
             <AlertTitle>Success</AlertTitle>
             Congratulations — <strong>You have successfully signed-in!</strong>
           </Alert> : null
-      }{    
-        values.error ?
+      }
+      {    
+        values.log_error ?
           <Alert severity="error">
             <AlertTitle>Error</AlertTitle>
             Oh, there is something wrong. — <strong>Please check it out!</strong>
