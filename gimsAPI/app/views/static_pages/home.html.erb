@@ -1,9 +1,0 @@
-<div class="center jumbotron">
-	<%= link_to image_tag("jukebox.jpg", alt: "Rails Logo"), 'http://rubyonrails.org/' %>
-	<p>
-		Juke it before they nuke it
-	</p>
-	<% if !logged_in? %>
-		<%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-	<% end %>
-</div>
