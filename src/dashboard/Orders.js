@@ -14,12 +14,9 @@ import axios from "axios";
 import Alert from '@material-ui/lab/Alert';
 import MuiAlert from "@material-ui/lab/Alert";
 import Typography from '@material-ui/core/Typography';
-//import AlertTitle from '@material-ui/lab/AlertTitle';
+import SvgIcon from '@material-ui/core/SvgIcon';
 import { AlertTitle } from '@material-ui/lab';
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
+//import EditModal from '../Modals/editModal'
 
 /*const rows = [
   createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
@@ -52,7 +49,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function Orders() {
   const classes = useStyles();
-  
+  const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/products/'
+    
   const [values, setValues] = React.useState({
     item:'',
     quantity: '',
@@ -60,12 +58,15 @@ export default function Orders() {
     category: '',
     product_list: '',
     log_success: false,
-
     product_added: false,
+    modal_open: false,
+
+    editPrice: '',
+    editQuantity: ''
   });
 
   React.useEffect(() => {
-    axios.get('api/v1/products')
+    axios.get(baseURL)
       .then(response => {
         setValues({product_list: response.data.data})
       })
@@ -99,6 +100,21 @@ export default function Orders() {
     })
   }; 
 
+  const handleRemove = uid => event => {
+    event.preventDefault();
+    const token = localStorage.getItem('token')
+    axios.delete(baseURL + uid,
+      {headers: {
+              'Authorization': token
+      }})
+    .then(response => {
+      console.log(response)
+      window.location.reload(false)
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+
   const u_id = localStorage.getItem('user_id')
 
   const handleChange = name => event => {
@@ -110,11 +126,24 @@ export default function Orders() {
     return () => clearTimeout(timer);
   };
 
+  const handleEdit = (itemPrice, itemQuantity) => event => {
+    const timer = setTimeout(() => setValues({
+                                                modal_open:true,
+                                                editPrice: itemPrice,
+                                                editQuantity: itemQuantity
+                                              }), 4000);
+    return () => clearTimeout(timer);
+  }
+
+  const handleEditProduct = event => {
+    event.preventDefault();
+    //axios.patch('', params)
+  }
+
   if(values.log_success)
   return (
     <React.Fragment>
       <div className={classes.paper}>
-        <form align= "right" ></form>
         <Button onClick={handleAddProducts} color="inherit" ></Button> 
         <form 
           className={classes.root} 
@@ -179,10 +208,58 @@ export default function Orders() {
       <div>
         <Button 
           type="submit" 
-          onClick={() => {}} 
+          onClick 
           variant="contained" 
           color="primary" 
           className={classes.form}>Add</Button>
+      </div>
+    </form>
+  </div>
+</React.Fragment>
+);
+
+if(values.modal_open)
+return(
+        <React.Fragment>
+      <div className={classes.paper}>
+        <Button onClick={handleEdit} color="inherit" ></Button> 
+        <form 
+          className={classes.root} 
+          noValidate 
+          autoComplete="off" 
+          onSubmit={handleEditProduct}
+        >
+        <Typography component="h1" variant="h5" align='center'>
+          Edit Product Details
+        </Typography>
+        
+        <TextField
+            autoFocus
+            margin="dense"
+            id="editPrice"
+            label="Price"
+            type="number"
+            fullWidth
+            value={values.editPrice}
+            onChange={handleChange('editPrice')}
+        />
+
+        <TextField
+            autoFocus
+            margin="dense"
+            id="editQuantity"
+            label="Minimum Amount"
+            type="number"
+            fullWidth
+            value={values.editQuantity}
+            onChange={handleChange('editQuantity')}
+        />
+      <div>
+        <Button 
+          type="submit" 
+          variant="contained" 
+          color="primary" 
+          className={classes.form}>Set Values</Button>
       </div>
     </form>
   </div>
@@ -213,16 +290,18 @@ return(
               <TableRow key={row.id}>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.min_amount}</TableCell>
-                <TableCell>{row.category}</TableCell>
+                <TableCell>{row.description}</TableCell>
                 <TableCell>{row.price}</TableCell>
+                <TableCell><Button 
+                  align= "left" 
+                  color="inherit"
+                  onClick={handleRemove(row.id)}
+                ><span class="material-icons">delete</span></Button></TableCell>
+                <TableCell><Button onClick={handleEdit(row.price, row.min_amount)}><span class="material-icons">system_update_alt</span></Button></TableCell>
               </TableRow>
           ) ) }
       </TableBody>
     </Table>
-    
-    <div className={classes.seeMore}>
-      <Link color="primary" href="javascript:;">See more orders</Link>
-    </div>
   </React.Fragment>
 );
 }
