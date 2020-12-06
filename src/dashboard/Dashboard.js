@@ -34,6 +34,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import Button from '@material-ui/core/Button';
 import Manufacturers from './Manufacturers';
+import Customers from './Customers';
 import TextField from '@material-ui/core/TextField';
 
 //Axious Impoera
@@ -127,6 +128,7 @@ export default function Dashboard() {
   const [values, setValues] = React.useState({
     log_success: false,
     add_success: false,
+    view_order: true,
     data: []
   });
 
@@ -142,8 +144,8 @@ export default function Dashboard() {
     //setOpen(true);
 
   };
-  const addManufacturer = () => {
-    setValues({add_success:true})
+  const viewOrders = () => {
+    setValues({view_order:true})
     //setOpen(true);
 
   };
@@ -210,7 +212,7 @@ export default function Dashboard() {
       </ListItemIcon>
       <ListItemText primary="Manufacturer List" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={viewOrders}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
@@ -240,7 +242,7 @@ export default function Dashboard() {
       </main>
     </div>
   );
-if (values.add_success)
+  if (values.view_order)
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -282,7 +284,6 @@ if (values.add_success)
           </IconButton>
         </div>
         <Divider />
-
         <List><div>
     <ListItem button>
       <ListItemIcon>
@@ -296,7 +297,7 @@ if (values.add_success)
       </ListItemIcon>
       <ListItemText primary="Manufacturer List" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={viewOrders}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
@@ -310,24 +311,18 @@ if (values.add_success)
     </ListItem>
   </div></List>
         <Divider />
-
         <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-             <Grid item xs={12}>
-               <Paper className={classes.paper}>
-                 <Manufacturers />
-               </Paper>
-             </Grid>
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Customers />
+              </Paper>
+            </Grid>
           </Grid>
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField id="standard-basic" label="Standard" />
-            <TextField id="filled-basic" label="Filled" variant="filled" />
-            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-          </form>
         </Container>
       </main>
     </div>
@@ -384,7 +379,7 @@ if (values.add_success)
       </ListItemIcon>
       <ListItemText primary="Manufacturer List" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={viewOrders}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
