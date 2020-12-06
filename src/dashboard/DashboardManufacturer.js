@@ -137,14 +137,14 @@ export default function Dashboard() {
   const handleDelete = event => {
     event.preventDefault();
     const token = localStorage.getItem('token')
-    const id = localStorage.getItem('user-id')
+    const id = localStorage.getItem('user_id')
     axios.delete(baseURL + id,
       {headers: {
               'Authorization': token
       }})
     .then(response => {
       console.log(response)
-      window.location.reload(false)
+      window.location.href('/')
     }).catch(error => {
       console.log(error)
     })
@@ -242,6 +242,12 @@ export default function Dashboard() {
       </ListItemIcon>
       <ListItemText primary="Year-end sale" />
     </ListItem>
+    <ListItem button onClick={handleDelete}>
+      <ListItemIcon>
+        <span class="material-icons">delete</span>
+      </ListItemIcon>
+      <ListItemText primary="Delete Account" />
+    </ListItem>
   </div></List>
       </Drawer>
       <main className={classes.content}>
@@ -283,8 +289,7 @@ return(
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Button color="inherit" onClick = {handleLogOut}>Logout</Button>
-          <Button color="inherit" onClick = {handleDelete}>Delete Account</Button> 
+          <Button color="inherit" onClick = {handleLogOut}>Logout</Button> 
         </Toolbar>
       </AppBar>
       <Drawer
@@ -341,6 +346,12 @@ return(
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Year-end sale" />
+    </ListItem>
+    <ListItem button onClick={handleDelete}>
+      <ListItemIcon>
+        <span class="material-icons">delete</span>
+      </ListItemIcon>
+      <ListItemText primary="Delete Account" />
     </ListItem>
   </div></List>
       </Drawer>
