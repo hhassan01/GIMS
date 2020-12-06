@@ -62,7 +62,8 @@ export default function Orders() {
     modal_open: false,
 
     editPrice: '',
-    editQuantity: ''
+    editQuantity: '',
+    editID: ''
   });
 
   React.useEffect(() => {
@@ -126,18 +127,26 @@ export default function Orders() {
     return () => clearTimeout(timer);
   };
 
-  const handleEdit = (itemPrice, itemQuantity) => event => {
+  const handleEdit = (itemPrice, itemQuantity, itemID) => event => {
     const timer = setTimeout(() => setValues({
                                                 modal_open:true,
                                                 editPrice: itemPrice,
-                                                editQuantity: itemQuantity
+                                                editQuantity: itemQuantity,
+                                                editID: itemID
                                               }), 4000);
     return () => clearTimeout(timer);
   }
 
   const handleEditProduct = event => {
     event.preventDefault();
-    //axios.patch('', params)
+    const params = {
+      price: values.editPrice,
+      min_amount: values.editQuantity
+    }
+    axios.patch(baseURL + values.editID, params)
+      .then(response => {
+        console.log(response)
+      })
   }
 
   if(values.log_success)
@@ -297,7 +306,7 @@ return(
                   color="inherit"
                   onClick={handleRemove(row.id)}
                 ><span class="material-icons">delete</span></Button></TableCell>
-                <TableCell><Button onClick={handleEdit(row.price, row.min_amount)}><span class="material-icons">system_update_alt</span></Button></TableCell>
+                <TableCell><Button onClick={handleEdit(row.price, row.min_amount, row.id)}><span class="material-icons">system_update_alt</span></Button></TableCell>
               </TableRow>
           ) ) }
       </TableBody>
