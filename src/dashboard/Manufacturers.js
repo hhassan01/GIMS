@@ -198,11 +198,11 @@ return (
                 <TableCell>{row.user_type}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell align="right">{row.amount}</TableCell>
-                <Button 
+                <TableCell><Button 
                   align= "left" 
                   color="inherit"
                   onClick={handleRemove(row.id)}
-                >Remove</Button>
+                ><span class="material-icons">delete</span></Button></TableCell>
               </TableRow>
           ) ) }
       </TableBody>

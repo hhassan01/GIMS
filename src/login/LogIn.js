@@ -87,8 +87,8 @@ export default function LogIn() {
   
   const handleLogin = event => {
     event.preventDefault();
-    //const backendURL = 'http://agile-badlands-70924.herokuapp.com/' 
-    axios.post('api/v1/login', params, {
+    const baseURL = 'http://agile-badlands-70924.herokuapp.com/' 
+    axios.post(baseURL + 'api/v1/login', params, {
       headers: {
         'content-type': 'application/json',
       },
