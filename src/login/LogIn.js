@@ -87,7 +87,8 @@ export default function LogIn() {
   
   const handleLogin = event => {
     event.preventDefault();
-    axios.post('/api/v1/login', params, {
+    //const backendURL = 'http://agile-badlands-70924.herokuapp.com/' 
+    axios.post('api/v1/login', params, {
       headers: {
         'content-type': 'application/json',
       },
@@ -98,7 +99,7 @@ export default function LogIn() {
         localStorage.setItem('name', response.data.name)
         localStorage.setItem('user_id', response.data.user_id)
         localStorage.setItem('user_type', response.data.user_type)
-        
+
         setValues({
           log_success: true,
           isUserAuth: true

@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import axios from "axios";
+
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
   return { id, date, name, shipTo, paymentMethod, amount };
@@ -51,6 +52,7 @@ export default function Manufacturers() {
 
   React.useEffect(() => {
     axios.get('api/v1/users').then(response => {
+      console.log(response.data)
       setValues({user_list: response.data.data})
     })
   }, []);
@@ -86,6 +88,22 @@ export default function Manufacturers() {
     setValues({add_success:true})
   };
   
+  const handleRemove = uid => event => {
+    event.preventDefault();
+    const token = localStorage.getItem('token')
+    axios.delete('/api/v1/users/' + uid,
+      {headers: {
+              'Authorization': token
+            }})
+    .then(response => {
+      console.log(response)
+      window.location.reload(false)
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+
+
   if (values.add_success)
   return (
     <React.Fragment>
@@ -160,7 +178,7 @@ return (
       >Add Manufacturer</Button> 
     </form>
     
-    <Title>User List</Title>
+    <Title>Manufacturer List</Title>
     
     <Table size="small">
       <TableHead>
@@ -180,14 +198,15 @@ return (
                 <TableCell>{row.user_type}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell align="right">{row.amount}</TableCell>
+                <Button 
+                  align= "left" 
+                  color="inherit"
+                  onClick={handleRemove(row.id)}
+                >Remove</Button>
               </TableRow>
           ) ) }
       </TableBody>
     </Table>
-    
-    <div className={classes.seeMore}>
-      <Link color="primary" href="javascript:;">See more orders</Link>
-    </div>
   </React.Fragment>
 );
 }
