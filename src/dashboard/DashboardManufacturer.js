@@ -31,6 +31,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import axios from "axios";
 import gr from './gr.svg';
 const drawerWidth = 240;
 
@@ -116,6 +117,7 @@ const useStyles = makeStyles(theme => ({
 export default function Dashboard() {
   //const Categories = ['My Products', 'Reports']
   const classes = useStyles();
+  const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/users/'
   const [open, setOpen] = React.useState(true);
   const [values, setValues] = React.useState({
     log_success: false
@@ -129,6 +131,23 @@ export default function Dashboard() {
   const handleProducts = event => {
      const timer = setTimeout(() => setValues({log_success:true}), 5);
     return () => setValues({log_success:true});
+    //setOpen(true);
+
+  };
+  const handleDelete = event => {
+    event.preventDefault();
+    const token = localStorage.getItem('token')
+    const id = localStorage.getItem('user-id')
+    axios.delete(baseURL + id,
+      {headers: {
+              'Authorization': token
+      }})
+    .then(response => {
+      console.log(response)
+      window.location.reload(false)
+    }).catch(error => {
+      console.log(error)
+    })
     //setOpen(true);
 
   };
@@ -165,6 +184,7 @@ export default function Dashboard() {
             </Badge>
           </IconButton>
           <Button color="inherit" onClick = {handleLogOut}>Logout</Button> 
+           <Button color="inherit" >Delete Account</Button> 
         </Toolbar>
       </AppBar>
       <Drawer
@@ -264,6 +284,7 @@ return(
             </Badge>
           </IconButton>
           <Button color="inherit" onClick = {handleLogOut}>Logout</Button>
+          <Button color="inherit" onClick = {handleDelete}>Delete Account</Button> 
         </Toolbar>
       </AppBar>
       <Drawer
