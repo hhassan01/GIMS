@@ -8,6 +8,7 @@ import LogIn                                    from './login/LogIn';
 import SignUp                                   from './signup/SignUp';
 import Dashboard                                from './dashboard/Dashboard';
 import ManufacturerDash                         from './dashboard/DashboardManufacturer';
+import WholesalerDash                           from './dashboard/wholesalerDashboard'
 import ResetPassword                            from './resetPassword/resetPassword';
 import PasswordForm                             from './resetPassword/passwordForm';
 import UserInformation                          from './userInfo/userInfo'
@@ -23,6 +24,7 @@ function App() {
             <Route path="/profile"  component={Dashboard}        />
             <Route path="/orders"   component={ManufacturerDash} />
             <Route path="/userInfo" component={UserInformation}  />
+            <Route path="/wholeDash"component={WholesalerDash}   />
         </Router>
     );
 }

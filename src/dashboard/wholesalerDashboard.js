@@ -174,7 +174,7 @@ export default function Dashboard() {
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             <img src={gr} height="30px"/>
-            Grocery Inventory Management System GIMS
+            Grocery Inventory Management System GIMS - Wholesaler
           </Typography>
           <IconButton color="inherit">
             <Badge color="secondary">
@@ -259,7 +259,7 @@ export default function Dashboard() {
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             <img src={gr} height="30px"/>
-            Grocery Inventory Management System GIMS
+            Grocery Inventory Management System GIMS - Wholesaler
           </Typography>
           <IconButton color="inherit">
             <Badge color="secondary">
