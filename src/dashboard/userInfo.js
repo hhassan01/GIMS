@@ -60,10 +60,12 @@ export default function Users() {
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
+  
   React.useEffect(() => {
+    const baseURL = 'http://agile-badlands-70924.herokuapp.com/' 
     const user_id = localStorage.getItem('user_id')
     const token = localStorage.getItem('token')
-    axios.get('api/v1/users/' + user_id, {
+    axios.get(baseURL + 'api/v1/users/' + user_id, {
       headers: {
         'Authorization': token,
       },
@@ -87,7 +89,7 @@ export default function Users() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          View User Information
+          User Information
         </Typography>
         <Table size="small">  
       <TableBody>

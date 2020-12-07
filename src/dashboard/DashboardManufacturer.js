@@ -183,8 +183,7 @@ export default function Dashboard() {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Button color="inherit" onClick = {handleLogOut}>Logout</Button> 
-           <Button color="inherit" >Delete Account</Button> 
+          <Button color="inherit" onClick = {handleLogOut}>Logout</Button>  
         </Toolbar>
       </AppBar>
       <Drawer

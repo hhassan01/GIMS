@@ -12,11 +12,6 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import axios from "axios";
 
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
 const useStyles = makeStyles(theme => ({
   seeMore: {
     marginTop: theme.spacing(3),
@@ -51,7 +46,8 @@ export default function Customers() {
   });
 
   React.useEffect(() => {
-    axios.get('api/v1/users').then(response => {
+    const baseURL = 'http://agile-badlands-70924.herokuapp.com/' 
+    axios.get(baseURL + 'api/v1/users').then(response => {
       console.log(response.data)
       setValues({user_list: response.data.data})
     })
