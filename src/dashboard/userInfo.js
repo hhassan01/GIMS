@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from "axios";
 import Alert from '@material-ui/lab/Alert';
+import Link from '@material-ui/core/Link';
 //import { login } from "../actions/auth";
 import MuiAlert from "@material-ui/lab/Alert";
 
@@ -45,7 +46,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignUp() {
+export default function Users() {
   const classes = useStyles();
 
   const [values, setValues] = React.useState({
@@ -78,6 +79,7 @@ export default function SignUp() {
   }, []); 
 
   return (
+    <React.Fragment>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -109,5 +111,6 @@ export default function SignUp() {
     </Table>
       </div>
     </Container>
+    </React.Fragment>
   );
 }
