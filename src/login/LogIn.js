@@ -73,6 +73,9 @@ export default function LogIn() {
     log_success: false,
     log_error: false,
     //isUserAuth: false
+    isManufacturer: false,
+    isDistriutor: false,
+    isWholesaler: false
   });
 
   //Need to find what it is used for. Otherwise remove
@@ -100,13 +103,16 @@ export default function LogIn() {
         localStorage.setItem('user_id', response.data.user_id)
         localStorage.setItem('user_type', response.data.user_type)
 
-        setValues({
-          log_success: true,
-          isUserAuth: true
-        }, () => {setTimeout(() => setValues({
+        setValues({log_success: true}, () => {setTimeout(() => setValues({
           log_success: false,
-          isUserAuth: false
         }))}, 4000)
+        if(response.data.user_type == "Manufacturer") {
+            setValues({isManufacturer: true})
+          } else if (response.data.user_type == "Distributor") {
+            setValues({isDistriutor: true})
+          } else if (response.data.user_type == "Wholesaler") {
+            setValues({isWholesaler: true})
+          }
       }
     )
       .catch(error => {
@@ -187,9 +193,14 @@ export default function LogIn() {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />*/}
-          {values.isUserAuth ?
-             <Redirect to="/profile" /> :
-            <Redirect to="/" /> 
+          {
+            values.isWholesaler ? <Redirect to='/wholeDash' /> : null
+          }
+          {
+            values.isDistriutor ? <Redirect to='/distDash' /> : null
+          }
+          {
+            values.isManufacturer ? <Redirect to='/manuDash' /> : null
           }
           <Button
             type="submit"

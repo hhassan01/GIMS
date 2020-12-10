@@ -17,12 +17,12 @@ import './App.css';
 function App() {
     return (
         <Router>
-            <Route exact path="/"   component={LogIn}            />
-            <Route path="/signup"   component={SignUp}           />
-            <Route path="/users"    component={UserList}         />
-            <Route path="/profile"  component={Dashboard}        />
-            <Route path="/orders"   component={ManufacturerDash} />
-            <Route path="/wholeDash"component={WholesalerDash}   />
+            <Route exact path="/"    component={LogIn}            />
+            <Route path="/signup"    component={SignUp}           />
+            <Route path="/users"     component={UserList}         />
+            <Route path="/distDash"  component={Dashboard}        />
+            <Route path="/manuDash"  component={ManufacturerDash} />
+            <Route path="/wholeDash" component={WholesalerDash}   />
         </Router>
     );
 }

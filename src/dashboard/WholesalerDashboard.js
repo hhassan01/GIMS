@@ -154,6 +154,13 @@ export default function Dashboard() {
 
   };
 
+  const handleLogOut = event =>{
+    event.preventDefault();
+    localStorage.clear();
+    setValues({log_success:false});
+    window.location.href ="/"
+  };
+
   const handleDashboard = () => {
     setValues({log_success:true})
     //setOpen(true);
@@ -219,7 +226,7 @@ const u_id = localStorage.getItem('user_id')
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Button color="inherit">Logout</Button> 
+          <Button color="inherit" onClick={handleLogOut}>Logout</Button> 
         </Toolbar>
       </AppBar>
      
@@ -330,7 +337,7 @@ if (values.acc_info)
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Button color="inherit">Logout</Button> 
+          <Button color="inherit" onClick={handleLogOut}>Logout</Button> 
         </Toolbar>
       </AppBar>
      
@@ -442,7 +449,7 @@ return(
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Button color="inherit">Logout</Button> 
+          <Button color="inherit" onClick={handleLogOut}>Logout</Button> 
         </Toolbar>
       </AppBar>
      
