@@ -346,9 +346,6 @@ return(
                 ><span class="material-icons">delete</span></Button></TableCell>
                 <TableCell><Button onClick={handleEdit(row.price, row.min_amount)}><span class="material-icons">system_update_alt</span></Button></TableCell>
               </TableRow>
-              
-             
-          
           ) ) }
       </TableBody>
     </Table>

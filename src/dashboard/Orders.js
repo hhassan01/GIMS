@@ -66,12 +66,24 @@ export default function Orders() {
     editID: ''
   });
 
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchResults, setSearchResults] = React.useState([]);
+  const handleSearchChange = e => {
+    e.preventDefault()
+    setSearchTerm(e.target.value);
+  };
+
   React.useEffect(() => {
     axios.get(baseURL)
       .then(response => {
         setValues({product_list: response.data.data})
+        const results = values.product_list && values.product_list
+          .filter(product =>
+            product.name.toLowerCase().includes(searchTerm)
+          );
+        setSearchResults(results)
       })
-  }, []);
+  }, [searchTerm]);
   
   const params = {
     name: values.name,
@@ -81,7 +93,7 @@ export default function Orders() {
     user_id: localStorage.getItem('user_id')
   }
   
-  const successful = React.useState()
+//  const successful = React.useState()
 
   const handleSubmitAddItem = event => {
     event.preventDefault();
@@ -283,6 +295,32 @@ return(
     <Title>Products</Title>
     <Table size="small">
       <TableHead>
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+          {searchResults && searchResults
+            .map(item => (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.min_amount}</TableCell>
+                <TableCell>{item.description}</TableCell>
+                <TableCell>{item.price}</TableCell>
+                <TableCell><Button 
+                  align= "left" 
+                  color="inherit"
+                  onClick={handleRemove(item.id)}
+                ><span class="material-icons">delete</span></Button></TableCell>
+                <TableCell>
+                  <Button 
+                    onClick={handleEdit(item.price, item.min_amount, item.id)}
+                  ><span class="material-icons">system_update_alt</span>
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
         <TableRow>
           <TableCell>Name</TableCell>
           <TableCell>Minimum Amount</TableCell>
@@ -290,11 +328,11 @@ return(
           <TableCell>Price</TableCell>
         </TableRow>
       </TableHead>
-        
       <TableBody>
         {
           values.product_list && values.product_list
-            .filter(prod => prod.user_id == u_id)  
+            .filter(prod => prod.user_id == u_id)
+         // searchResults && searchResults  
             .map(row => (
               <TableRow key={row.id}>
                 <TableCell>{row.name}</TableCell>

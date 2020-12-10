@@ -122,7 +122,8 @@ export default function Dashboard() {
   const [values, setValues] = React.useState({
     log_success: false
   });
-    const handleLogOut = event =>{
+  
+  const handleLogOut = event =>{
     event.preventDefault();
     localStorage.clear();
     setValues({log_success:false});
