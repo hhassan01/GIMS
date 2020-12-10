@@ -295,32 +295,7 @@ return(
     <Title>Products</Title>
     <Table size="small">
       <TableHead>
-        <input
-          type="text"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-          {searchResults && searchResults
-            .map(item => (
-              <TableRow key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.min_amount}</TableCell>
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{item.price}</TableCell>
-                <TableCell><Button 
-                  align= "left" 
-                  color="inherit"
-                  onClick={handleRemove(item.id)}
-                ><span class="material-icons">delete</span></Button></TableCell>
-                <TableCell>
-                  <Button 
-                    onClick={handleEdit(item.price, item.min_amount, item.id)}
-                  ><span class="material-icons">system_update_alt</span>
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+          
         <TableRow>
           <TableCell>Name</TableCell>
           <TableCell>Minimum Amount</TableCell>

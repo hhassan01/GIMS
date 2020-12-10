@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Manufacturers() {
   const classes = useStyles();
-
+  const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/users/'
 
   const [values, setValues] = React.useState({
     add_success: false,
@@ -51,7 +51,7 @@ export default function Manufacturers() {
   });
 
   React.useEffect(() => {
-    axios.get('api/v1/users').then(response => {
+    axios.get(baseURL).then(response => {
       console.log(response.data)
       setValues({user_list: response.data.data})
     })
@@ -66,7 +66,7 @@ export default function Manufacturers() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    axios.post('/api/v1/users', params, {
+    axios.post(baseURL, params, {
       headers: {
         'content-type': 'application/json',
       },
@@ -74,6 +74,7 @@ export default function Manufacturers() {
     )
     .then(response => {
       console.log(response.data)
+      window.location.href ="/distDash"
     })
   /*  .catch(error => console.log(error),
       setValues({error:true})
