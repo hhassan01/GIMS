@@ -120,6 +120,7 @@ export default function LogIn() {
         setValues({log_error: true}, () => {
           setTimeout(() => setValues({log_error: false}))
         }, 4000)
+        localStorage.clear()
       }
     )
   };
@@ -219,11 +220,6 @@ export default function LogIn() {
           
           
           <Grid container>
-            <Grid item xs>
-              <Link href="/password_resets" variant="body2" color="primary">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
               <Link href="/signup" variant="body2" color="primary">
                 {"Don't have an account? Sign Up"}

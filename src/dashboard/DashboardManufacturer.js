@@ -20,6 +20,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 //import { mainListItems, secondaryListItems } from './ListItemsManufacturer';
 import Orders from './Orders';
+import Reports from './ReportManu';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -33,6 +34,12 @@ import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import axios from "axios";
 import gr from './gr.svg';
+import {
+ 
+  Switch,
+ // Link,
+  Redirect
+} from "react-router-dom";
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -120,7 +127,9 @@ export default function Dashboard() {
   const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/users/'
   const [open, setOpen] = React.useState(true);
   const [values, setValues] = React.useState({
-    log_success: false
+    log_success: false,
+    isDelete: false,
+    view_rep:false
   });
   
   const handleLogOut = event =>{
@@ -135,8 +144,14 @@ export default function Dashboard() {
     //setOpen(true);
 
   };
+  const viewReport = event => {
+     const timer = setTimeout(() => setValues({view_rep:true}), 5);
+    return () => setValues({view_rep:true});
+    //setOpen(true);
+
+  };
   const handleDelete = event => {
-    event.preventDefault();
+       event.preventDefault();
     const token = localStorage.getItem('token')
     const id = localStorage.getItem('user_id')
     axios.delete(baseURL + id,
@@ -145,7 +160,9 @@ export default function Dashboard() {
       }})
     .then(response => {
       console.log(response)
-      window.location.href('/')
+      localStorage.clear();
+      setValues({isDelete:true});
+
     }).catch(error => {
       console.log(error)
     })
@@ -160,114 +177,11 @@ export default function Dashboard() {
   };
   
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  if(values.log_success)
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-          <img src={gr} height="30px"/>
-            Grocery Inventory Management System GIMS
-          </Typography>
-          <IconButton color="inherit">
-            <Badge color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <Button color="inherit" onClick = {handleLogOut}>Logout</Button>  
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon} >
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    <ListItem button onClick={handleProducts}>
-      <ListItemIcon>
-        <StorefrontIcon />
-      </ListItemIcon>
-      <ListItemText primary="My Products" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
-    </ListItem>
-
-  </div></List>
-        <Divider />
-        <List>  <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItem>
-    <ListItem button onClick={handleDelete}>
-      <ListItemIcon>
-        <span class="material-icons">delete</span>
-      </ListItemIcon>
-      <ListItemText primary="Delete Account" />
-    </ListItem>
-  </div></List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Orders />
-              </Paper>
-            </Grid>
-          </Grid>
-        </Container>
-      </main>
-    </div>
-
-  );
 return(
  <div className={classes.root}>
+             {
+            values.isDelete ? <Redirect to='/' /> : null
+          }
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
@@ -318,7 +232,7 @@ return(
       </ListItemIcon>
       <ListItemText primary="My Products" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={viewReport}>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
@@ -328,25 +242,6 @@ return(
   </div></List>
         <Divider />
         <List>  <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItem>
     <ListItem button onClick={handleDelete}>
       <ListItemIcon>
         <span class="material-icons">delete</span>
@@ -359,7 +254,20 @@ return(
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-
+                    {
+            values.log_success ? <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Orders />
+              </Paper>
+            </Grid> : null
+          }
+                              {
+            values.view_rep ? <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Reports />
+              </Paper>
+            </Grid> : null
+          }
           </Grid>
         </Container>
       </main>

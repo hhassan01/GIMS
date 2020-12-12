@@ -16,10 +16,11 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 //import { mainListItems, secondaryListItems } from './ListItemsManufacturer';
-import Orders from './Orders';
+import Orders from './NewProd';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -40,7 +41,16 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Input from '@material-ui/core/Input';
-import Users from './userInfo'
+import Users from './userInfo';
+import Transactions from './Transactions';
+import PasswordForm from './passwordForm';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import {
+ 
+  Switch,
+ // Link,
+  Redirect
+} from "react-router-dom";
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -130,7 +140,10 @@ export default function Dashboard() {
   const [values, setValues] = React.useState({
     log_success: false,
     pass_info: false,
-    acc_info:false
+    acc_info:false,
+    isDelete :false,
+    viewHist:false,
+    tokenising: ''
   });
   //const [search, setSearch] = React.useState('');
 
@@ -139,6 +152,7 @@ export default function Dashboard() {
   const handleDelete = event => {
     event.preventDefault();
     const token = localStorage.getItem('token')
+    setValues({tokenising:token})
     const id = localStorage.getItem('user_id')
     axios.delete(baseURL + id,
       {headers: {
@@ -146,7 +160,9 @@ export default function Dashboard() {
       }})
     .then(response => {
       console.log(response)
-      window.location.href('/')
+      localStorage.clear();
+      setValues({isDelete:true});
+
     }).catch(error => {
       console.log(error)
     })
@@ -183,6 +199,9 @@ const u_id = localStorage.getItem('user_id')
   const handlePasswordChange = () => {
     setValues({pass_info:true})
   };
+  const handleTH = () => {
+    setValues({viewHist:!values.viewHist})
+  };
   const handleAccountinfo = () => {
     setValues({acc_info:true})
   };
@@ -200,10 +219,11 @@ const u_id = localStorage.getItem('user_id')
   };
   
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  if(values.log_success)
-  return (
-    <div className={classes.root}>
-
+return(
+	   <div className={classes.root}>
+                {
+            values.isDelete ? <Redirect to='/' /> : null
+          }
 
 
       <CssBaseline />
@@ -252,10 +272,15 @@ const u_id = localStorage.getItem('user_id')
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    
+        <ListItem button onClick={handleTH}>
+      <ListItemIcon>
+        <ReceiptIcon />
+      </ListItemIcon>
+      <ListItemText primary="Transaction History" />
+    </ListItem>
     <ListItem button onClick={handleAccountinfo}>
       <ListItemIcon>
-        <StorefrontIcon />
+        < AccountBoxIcon/>
       </ListItemIcon>
       <ListItemText primary="View Account Info" />
     </ListItem>
@@ -276,254 +301,40 @@ const u_id = localStorage.getItem('user_id')
   </div></List>
         <Divider />
         <List>  <div>
-    <ListSubheader inset>Saved Change Password</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItem>
   </div></List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-
-            <Grid item xs={12}>
+          {
+            values.log_success ? <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Orders />
               </Paper>
-            </Grid>
-          </Grid>
-        </Container>
-      </main>
-    </div>
-
-  );
-if (values.acc_info)
-   return (
-    <div className={classes.root}>
-
-      <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Grocery Inventory Management System GIMS
-          </Typography>
-          <IconButton color="inherit">
-            <Badge color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <Button color="inherit" onClick={handleLogOut}>Logout</Button> 
-        </Toolbar>
-      </AppBar>
-     
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon} >
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>  <div>
-        
-    
-    <ListItem button onClick={handleDashboard}>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    
-    <ListItem button onClick={handleAccountinfo}>
-      <ListItemIcon>
-        <StorefrontIcon />
-      </ListItemIcon>
-      <ListItemText primary="View Account Info" />
-    </ListItem>
-
-    <ListItem button  onClick={handlePasswordChange}>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Change Password" />
-    </ListItem>
-    <ListItem button onClick={handleDelete}>
-      <ListItemIcon>
-        <span class="material-icons">delete</span>
-      </ListItemIcon>
-      <ListItemText primary="Delete Account" />
-    </ListItem>
-
-  </div></List>
-        <Divider />
-        <List>  <div>
-    <ListSubheader inset>Saved Change Password</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItem>
-  </div></List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-
-            <Grid item xs={12}>
+            </Grid> : null
+          }
+          {
+            values.acc_info ? <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Users />
               </Paper>
-            </Grid>
-          </Grid>
-        </Container>
-      </main>
-    </div>
-
-  );
-return(
-	   <div className={classes.root}>
-
-
-
-      <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Grocery Inventory Management System GIMS
-          </Typography>
-          <IconButton color="inherit">
-            <Badge color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <Button color="inherit" onClick={handleLogOut}>Logout</Button> 
-        </Toolbar>
-      </AppBar>
-     
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon} >
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>  <div>
-        
-    
-    <ListItem button onClick={handleDashboard}>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    
-    <ListItem button onClick={handleAccountinfo}>
-      <ListItemIcon>
-        <StorefrontIcon />
-      </ListItemIcon>
-      <ListItemText primary="View Account Info" />
-    </ListItem>
-
-    <ListItem button  onClick={handlePasswordChange}>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Change Password" />
-    </ListItem>
-    <ListItem button onClick={handleDelete}>
-      <ListItemIcon>
-        <span class="material-icons">delete</span>
-      </ListItemIcon>
-      <ListItemText primary="Delete Account" />
-    </ListItem>
-
-  </div></List>
-        <Divider />
-        <List>  <div>
-    <ListSubheader inset>Saved Change Password</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItem>
-  </div></List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
+            </Grid> : null
+          }
+          {
+            values.viewHist ? <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Transactions />
+              </Paper>
+            </Grid> : null
+          }
+          {
+            values.pass_info ? <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <PasswordForm/>
+              </Paper>
+            </Grid> : null
+          }
           </Grid>
         </Container>
       </main>

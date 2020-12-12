@@ -14,7 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import queryString from 'query-string';
-
+import Alert from '@material-ui/lab/Alert';
+import { AlertTitle } from '@material-ui/lab';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -41,32 +42,32 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function PasswordForm(props) {
+export default function PasswordForm() {
   const classes = useStyles();
   const [values, setValues] = React.useState({
-    email: '',
     password: '',
-    passwordConfirmation: ''
+    passwordConfirmation: '',
+    tokenising: false
   });
-
+  const id = localStorage.getItem('user_id');
   const params = {
     //Query String parses the search parameters in the URL. 
     //.email extracts email parameter out of it
-    email: queryString.parse(props.location.search).email,
     password: values.password,
     passwordConfirmationl: values.passwordConfirmation
   }
   
   const handleLogin = event => {
     event.preventDefault();
-    const token = props.match.params.token
-    axios.patch(`/api/v1/password_resets/${token}`, params, {
+    axios.patch(`https://agile-badlands-70924.herokuapp.com/api/v1/password_resets/${id}`, params, {
       headers: {
         'content-type': 'application/json',
       },
     }
     )
-    .then(response => console.log(response.data))
+    .then(response => console.log(response.data),
+      setValues({tokenising:true})
+      )
     .catch(error => console.log(error))
   }; 
 
@@ -76,6 +77,13 @@ export default function PasswordForm(props) {
 
   return (
     <Container component="main" maxWidth="xs">
+              {
+            values.tokenising?<Alert severity="success">
+              <AlertTitle>Success</AlertTitle>
+              Congratulations — <strong>You have successfully changed password!</strong>
+            </Alert> 
+            : null
+          }
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -122,7 +130,7 @@ export default function PasswordForm(props) {
             color="primary"
             className={classes.submit}
           >
-            Reset Password
+          Reset Password
           </Button>
         </form>
       </div>

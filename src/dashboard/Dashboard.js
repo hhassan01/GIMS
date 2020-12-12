@@ -35,6 +35,8 @@ import StorefrontIcon from '@material-ui/icons/Storefront';
 import Button from '@material-ui/core/Button';
 import Manufacturers from './Manufacturers';
 import Customers from './Customers';
+import Orders from './Products';
+import Reports from './ReportDistributor';
 import TextField from '@material-ui/core/TextField';
 
 //Axious Impoera
@@ -129,6 +131,8 @@ export default function Dashboard() {
     log_success: false,
     add_success: false,
     view_order: true,
+    view_db:false,
+    view_report:false,
     data: []
   });
 
@@ -149,6 +153,16 @@ export default function Dashboard() {
     //setOpen(true);
 
   };
+  const viewDashboard = () => {
+    setValues({view_db:true})
+    //setOpen(true);
+
+  };
+  const viewReport = () => {
+    setValues({view_report:true})
+    //setOpen(true);
+
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -157,176 +171,6 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  if (values.log_success)
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            <img src={gr} height="30px"/>
-            Grocery Inventory Management System GIMS
-          </Typography>
-          <IconButton color="inherit">
-            <Badge color="secondary">
-              <NotificationsIcon />
-            </Badge>
-
-          </IconButton>
-          <Button color="inherit" onClick = {handleLogOut}>Logout</Button>
-          
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List><div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    <ListItem button onClick={handleManufacturer} >
-      <ListItemIcon>
-        <StorefrontIcon />
-      </ListItemIcon>
-      <ListItemText primary="Manufacturer List" />
-    </ListItem>
-    <ListItem button onClick={viewOrders}>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Customers" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
-    </ListItem>
-  </div></List>
-        <Divider />
-        <List>{secondaryListItems}</List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Manufacturers />
-              </Paper>
-            </Grid>
-          </Grid>
-        </Container>
-      </main>
-    </div>
-  );
-  if (values.view_order)
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            <img src={gr} height="30px"/>
-            Grocery Inventory Management System GIMS
-          </Typography>
-          <IconButton color="inherit">
-            <Badge color="secondary">
-              <NotificationsIcon />
-            </Badge>
-
-          </IconButton>
-          <Button color="inherit" onClick = {handleLogOut}>Logout</Button>
-          
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List><div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    <ListItem button onClick={handleManufacturer} >
-      <ListItemIcon>
-        <StorefrontIcon />
-      </ListItemIcon>
-      <ListItemText primary="Manufacturer List" />
-    </ListItem>
-    <ListItem button onClick={viewOrders}>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Customers" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
-    </ListItem>
-  </div></List>
-        <Divider />
-        <List>{secondaryListItems}</List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Customers />
-              </Paper>
-            </Grid>
-          </Grid>
-        </Container>
-      </main>
-    </div>
-  );
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -367,7 +211,7 @@ export default function Dashboard() {
         </div>
         <Divider />
         <List><div>
-    <ListItem button>
+    <ListItem button onClick={viewDashboard}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
@@ -383,9 +227,9 @@ export default function Dashboard() {
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Orders" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick = {viewReport}>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
@@ -399,6 +243,34 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
+                    {
+            values.log_success ? <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Manufacturers />
+              </Paper>
+            </Grid> : null
+          }
+          {
+            values.view_order ? <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Customers />
+              </Paper>
+            </Grid> : null
+          }
+          {
+            values.view_db? <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Orders />
+              </Paper>
+            </Grid> : null
+          }
+          {
+            values.view_report? <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Reports />
+              </Paper>
+            </Grid> : null
+          }
             
           </Grid>
         </Container>

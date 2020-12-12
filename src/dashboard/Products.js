@@ -16,15 +16,8 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Typography from '@material-ui/core/Typography';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { AlertTitle } from '@material-ui/lab';
+import Input from '@material-ui/core/Input';
 //import EditModal from '../Modals/editModal'
-
-/*const rows = [
-  createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-  createData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
-  createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
-];*/
 
 const useStyles = makeStyles(theme => ({
   seeMore: {
@@ -50,7 +43,49 @@ const useStyles = makeStyles(theme => ({
 export default function Orders() {
   const classes = useStyles();
   const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/products/'
+  
+  // const [products, setproducts] = ([]);
+  // const [loading, setLoading] = React.useState(false);
+  
+  // const [filteredproducts, setFilteredproducts] = React.useState([]);
+  const people = [
+  // "Siri",
+  // "Alexa",
+  // "Google",
+  // "Facebook",
+  // "Twitter",
+  // "Linkedin",
+  // "Sinkedin"
+];
+
+
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchResults, setSearchResults] = React.useState([]);
+  const handleSearchChange = e => {
+    setSearchTerm(e.target.value);
+  };
+
+  React.useEffect(() => {
+     axios.get(baseURL)
+      .then(response => {
+        console.log(response.data.data)
+        setValues({product_list: response.data.data});
+        //setproducts(response.data);
+        //setLoading(false)
+      })
+      .catch(err => {console.log(err);
+        });
     
+    const results = values.product_list && values.product_list
+            .filter(product =>
+      product.toLowerCase().includes(searchTerm)
+    );
+
+
+    setSearchResults(results);
+  }, [searchTerm]);
+
+
   const [values, setValues] = React.useState({
     item:'',
     quantity: '',
@@ -60,30 +95,23 @@ export default function Orders() {
     log_success: false,
     product_added: false,
     modal_open: false,
+    search: '',
 
     editPrice: '',
-    editQuantity: '',
-    editID: ''
+    editQuantity: ''
   });
 
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const [searchResults, setSearchResults] = React.useState([]);
-  const handleSearchChange = e => {
-    e.preventDefault()
-    setSearchTerm(e.target.value);
-  };
-
-  React.useEffect(() => {
-    axios.get(baseURL)
-      .then(response => {
-        setValues({product_list: response.data.data})
-        const results = values.product_list && values.product_list
-          .filter(product =>
-            product.name.toLowerCase().includes(searchTerm)
-          );
-        setSearchResults(results)
-      })
-  }, [searchTerm]);
+  // React.useEffect(() => {
+  //   setLoading(true);
+  //   axios.get(baseURL)
+  //     .then(response => {
+  //       setValues({product_list: response.data.data});
+  //       setproducts(response.data);
+  //       setLoading(false)
+  //     })
+  //     .catch(err => {console.log(err);
+  //       });
+  // }, []);
   
   const params = {
     name: values.name,
@@ -93,7 +121,7 @@ export default function Orders() {
     user_id: localStorage.getItem('user_id')
   }
   
-//  const successful = React.useState()
+  const successful = React.useState()
 
   const handleSubmitAddItem = event => {
     event.preventDefault();
@@ -132,39 +160,36 @@ export default function Orders() {
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
-  };
+    setSearchTerm(event.target.value);
+   };
   
   const handleAddProducts = event => {
     const timer = setTimeout(() => setValues({log_success:true}), 4000);
     return () => clearTimeout(timer);
   };
 
-  const handleEdit = (itemPrice, itemQuantity, itemID) => event => {
+  const handleEdit = (itemPrice, itemQuantity) => event => {
     const timer = setTimeout(() => setValues({
                                                 modal_open:true,
                                                 editPrice: itemPrice,
-                                                editQuantity: itemQuantity,
-                                                editID: itemID
+                                                editQuantity: itemQuantity
                                               }), 4000);
     return () => clearTimeout(timer);
   }
 
   const handleEditProduct = event => {
     event.preventDefault();
-    const params = {
-      price: values.editPrice,
-      min_amount: values.editQuantity
-    }
-    axios.patch(baseURL + values.editID, params)
-      .then(response => {
-        console.log(response)
-      })
+    //axios.patch('', params)
   }
-
+  // onChange = e => {
+  //   setValues({values.search : e.target.value});
+  // }
   if(values.log_success)
   return (
     <React.Fragment>
       <div className={classes.paper}>
+      
+        <Button onClick={handleAddProducts} color="inherit" ></Button> 
         <form 
           className={classes.root} 
           noValidate 
@@ -279,7 +304,7 @@ return(
           type="submit" 
           variant="contained" 
           color="primary" 
-          className={classes.form}>Set Values</Button>
+          className={classes.form}>SetValues</Button>
       </div>
     </form>
   </div>
@@ -288,27 +313,25 @@ return(
 
 return(
   <React.Fragment>
+      <form align= "center">
+        
+  </form>
+
     <form align= "right">
+    
+      <Button onClick={handleAddProducts} color="inherit" > Add Products</Button> 
     </form>
     <Title>Products</Title>
+    <input
+            type="text"
+            placeholder="Search"
+            value={searchTerm}
+            onChange={handleSearchChange}/>
+          <ul>
+            {searchResults && searchResults.map(item => (<li>{item}</li>))}
+          </ul>
     <Table size="small">
       <TableHead>
-        <input
-          type="text"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-          {searchResults && searchResults
-            .map(item => (
-              <TableRow key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.min_amount}</TableCell>
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{item.price}</TableCell>
-                
-              </TableRow>
-            ))}
         <TableRow>
           <TableCell>Name</TableCell>
           <TableCell>Minimum Amount</TableCell>
@@ -316,19 +339,27 @@ return(
           <TableCell>Price</TableCell>
         </TableRow>
       </TableHead>
+
+        
       <TableBody>
         {
-          values.product_list && values.product_list
-            //.filter(prod => prod.user_id == u_id)
-         // searchResults && searchResults  
+          values.product_list && values.product_list  
             .map(row => (
               <TableRow key={row.id}>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.min_amount}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.price}</TableCell>
-                
+                <TableCell><Button 
+                  align= "left" 
+                  color="inherit"
+                  onClick={handleRemove(row.id)}
+                ><span class="material-icons">delete</span></Button></TableCell>
+                <TableCell><Button onClick={handleEdit(row.price, row.min_amount)}><span class="material-icons">system_update_alt</span></Button></TableCell>
               </TableRow>
+              
+             
+          
           ) ) }
       </TableBody>
     </Table>

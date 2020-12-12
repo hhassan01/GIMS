@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Customers() {
+export default function Transactions() {
   const classes = useStyles();
 
 
@@ -44,25 +44,19 @@ export default function Customers() {
     password: '',
     user_list: []
   });
-
+  const id = localStorage.getItem('user_id');
   React.useEffect(() => {
-    const baseURL = 'https://agile-badlands-70924.herokuapp.com/' 
+    const baseURL = 'http://agile-badlands-70924.herokuapp.com/' 
     axios.get(baseURL + 'api/v1/orders').then(response => {
       console.log(response.data)
       setValues({user_list: response.data.data})
     })
   }, []);
 
-  const params = {
-    name: values.name,
-    email: values.email,
-    user_type: "Wholesaler",
-    password: values.password,
-  }
 
 return (
   <React.Fragment>
-    <Title>Orders</Title>
+    <Title>Transaction History</Title>
     
     <Table size="small">
       <TableHead>
@@ -79,6 +73,7 @@ return (
       <TableBody>
         {
           values.user_list && values.user_list
+          .filter(prod => prod.user_id == id)
             .map(row => (
               <TableRow>
                 <TableCell>{row.id}</TableCell>
