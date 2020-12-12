@@ -46,7 +46,7 @@ export default function Transactions() {
   });
   const id = localStorage.getItem('user_id');
   React.useEffect(() => {
-    const baseURL = 'http://agile-badlands-70924.herokuapp.com/' 
+    const baseURL = 'https://agile-badlands-70924.herokuapp.com/' 
     axios.get(baseURL + 'api/v1/orders').then(response => {
       console.log(response.data)
       setValues({user_list: response.data.data})

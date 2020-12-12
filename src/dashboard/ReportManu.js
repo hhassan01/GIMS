@@ -55,7 +55,7 @@ export default function Reports() {
   });
 
   React.useEffect(() => {
-    const baseURL = 'http://agile-badlands-70924.herokuapp.com/' 
+    const baseURL = 'https://agile-badlands-70924.herokuapp.com/' 
     axios.get(baseURL + 'api/v1/orders').then(response => {
       console.log(response.data)
       setValues({order_list: response.data.data})
