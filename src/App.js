@@ -9,6 +9,7 @@ import SignUp                                   from './signup/SignUp';
 import Dashboard                                from './dashboard/Dashboard';
 import ManufacturerDash                         from './dashboard/DashboardManufacturer';
 import WholesalerDash                           from './dashboard/WholesalerDashboard'
+import Checkout                                 from './checkOut/Checkout'
 import './App.css';
 
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/distDash"  component={Dashboard}        />
             <Route path="/manuDash"  component={ManufacturerDash} />
             <Route path="/wholeDash" component={WholesalerDash}   />
+            <Route path="/checkout"  component={Checkout}         />
         </Router>
     );
 }

@@ -373,26 +373,11 @@ return(
 return(
   <React.Fragment>
     <form align= "right">
-
-    
-
-    
-      
-      <div>Shopping Cart Balance: ${cartTotal} ({cart.length}) </div>
-       
+      <div>Shopping Cart Balance: ${cartTotal} ({cart.length})</div>
       <div>
         <button onClick={() => setCart([])}>Clear</button>
       </div>
-    
    </form>
-
-
-
- 
-
-
-
-
     <Title>Products</Title>
     <Table size="small">
       <TableHead>
@@ -438,27 +423,26 @@ return(
                 ><span class="material-icons">
                 add_shopping_cart
                 </span></Button>
-                <TableCell><button type="submit" onClick={() => removeFromCart(row)}>Remove</button></TableCell>
-                ({amountOfItems(row.id)} x ${row.price}) {`${row.name}`}
-
+                <TableCell>
+                  <button 
+                    type="submit" 
+                    onClick={() => removeFromCart(row)}
+                  >Remove</button>
                 </TableCell>
+                ({amountOfItems(row.id)} x ${row.price}) {`${row.name}`}
+              </TableCell>
                 <Rating
                   name="hover-feedback"
                   value = {row.rating}
                   precision={0.5}
-
                   onChange={(value, newHover) => {
                     setValue(newHover);
                   }}
-            
                   onChangeActive={(event, newHover) => {
                     setHover(newHover);
-
                   }}
                 />
                 {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
-              
-                
               </TableRow>
           ) ) }
       </TableBody>

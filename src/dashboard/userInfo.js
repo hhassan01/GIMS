@@ -62,7 +62,7 @@ export default function Users() {
   };
   
   React.useEffect(() => {
-    const baseURL = 'http://agile-badlands-70924.herokuapp.com/' 
+    const baseURL = 'https://agile-badlands-70924.herokuapp.com/' 
     const user_id = localStorage.getItem('user_id')
     const token = localStorage.getItem('token')
     axios.get(baseURL + 'api/v1/users/' + user_id, {
