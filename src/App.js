@@ -9,8 +9,6 @@ import SignUp                                   from './signup/SignUp';
 import Dashboard                                from './dashboard/Dashboard';
 import ManufacturerDash                         from './dashboard/DashboardManufacturer';
 import WholesalerDash                           from './dashboard/WholesalerDashboard'
-import ResetPassword                            from './resetPassword/resetPassword';
-import PasswordForm                             from './resetPassword/passwordForm';
 import './App.css';
 
 

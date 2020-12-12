@@ -16,7 +16,17 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Typography from '@material-ui/core/Typography';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { AlertTitle } from '@material-ui/lab';
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
+//import EditModal from '../Modals/editModal'
 
+/*const rows = [
+  createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
+  createData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
+  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
+  createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
+  createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
+];*/
 
 const useStyles = makeStyles(theme => ({
   seeMore: {
@@ -39,7 +49,86 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const items = [
+  {
+    id: 1,
+    name: "overwatch",
+    price: 20,
+  },
+  {
+    id: 2,
+    name: "minecraft",
+    price: 32,
+  },
+  {
+    id: 3,
+    name: "fortnite",
+    price: 51,
+  },
+];
+
+
+
+
 export default function Orders() {
+
+
+  const [cart, setCart] = React.useState([]);
+  const [prod, setProd] = React.useState([]);
+  const cartTotal = cart.reduce((total, { price = 0 }) => total + price, 0);
+  const prodTotal = prod.reduce((total, { price = 0 }) => total + price, 0);  
+  //{amountOfItems(row.id)} x ${row.price} {`${row.name}`}
+  const labels = {
+  0.5: 'Useless',
+  1: 'Useless+',
+  1.5: 'Poor',
+  2: 'Poor+',
+  2.5: 'Ok',
+  3: 'Ok+',
+  3.5: 'Good',
+  4: 'Good+',
+  4.5: 'Excellent',
+  5: 'Excellent+',
+};
+
+const useStyles = makeStyles({
+  root: {
+    width: 200,
+    display: 'flex',
+    alignItems: 'center',
+  },
+});
+  const [value, setValue] = React.useState(2);
+  const [hover, setHover] = React.useState(-1);
+
+  const addToCart = (item) => setCart((currentCart) => [...currentCart, item]);
+
+  const removeFromCart = (item) => {
+    setCart((currentCart) => {
+      const indexOfItemToRemove = currentCart.findIndex((cartItem) => cartItem.id === item.id);
+
+      if (indexOfItemToRemove === -1) {
+        return currentCart;
+      }
+
+      return [
+        ...currentCart.slice(0, indexOfItemToRemove),
+        ...currentCart.slice(indexOfItemToRemove + 1),
+      ];
+    });
+  };
+
+  const amountOfItems = (id) => cart.filter((item) => item.id === id).length;
+
+ 
+
+  const listItemsInCart = () => items.map((item) => (
+    <div key={item.id}>
+      ({amountOfItems(item.id)} x ${item.price}) {`${item.name}`}
+      <button type="submit" onClick={() => removeFromCart(item)}>Remove</button>
+    </div>
+  ));
+
   const classes = useStyles();
   const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/products/'
     
@@ -55,8 +144,7 @@ export default function Orders() {
 
     editPrice: '',
     editQuantity: '',
-    editID: '',
-    red: false
+    editID: ''
   });
 
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -82,27 +170,31 @@ export default function Orders() {
     name: values.name,
     price: values.price,
     min_amount: values.min_amount,
-    description: values.category,
+    category: values.category,
+    rating: value.rating,
     user_id: localStorage.getItem('user_id')
+
   }
   
 //  const successful = React.useState()
 
   const handleSubmitAddItem = event => {
     event.preventDefault();
-    console.log(params)
-    axios.post(baseURL, params, {
+    axios.post('/api/v1/products', params, {
       headers: {
         'content-type': 'application/json',
       },
     })
       .then(response => {
-        event.preventDefault();
-        console.log(response.data)    
-        setValues({red: true})  
-        setValues({product_added: true})  
-        window.location.href ="/manuDash"       
-      })}; 
+        console.log(response.data)
+        setValues({
+          product_added: true,
+        }, () => {setTimeout(() => setValues({
+          product_added: false
+        }))}, 4000)
+        setValues({log_success: true})
+    })
+  }; 
 
   const handleRemove = uid => event => {
     event.preventDefault();
@@ -156,7 +248,6 @@ export default function Orders() {
   return (
     <React.Fragment>
       <div className={classes.paper}>
-        <Button onClick={handleAddProducts} color="inherit" ></Button> 
         <form 
           className={classes.root} 
           noValidate 
@@ -259,10 +350,11 @@ return(
         <TextField
             autoFocus
             margin="dense"
-            id="editQuantity"
+            
             label="Minimum Amount"
             type="number"
             fullWidth
+            id="editQuantity"
             value={values.editQuantity}
             onChange={handleChange('editQuantity')}
         />
@@ -281,12 +373,45 @@ return(
 return(
   <React.Fragment>
     <form align= "right">
-      <Button onClick={handleAddProducts} color="inherit" >Add Products</Button> 
-    </form>
+
+    
+
+    
+      
+      <div>Shopping Cart Balance: ${cartTotal} ({cart.length}) </div>
+       
+      <div>
+        <button onClick={() => setCart([])}>Clear</button>
+      </div>
+    
+   </form>
+
+
+
+ 
+
+
+
+
     <Title>Products</Title>
     <Table size="small">
       <TableHead>
-          
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+          {searchResults && searchResults
+            .map(item => (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.min_amount}</TableCell>
+                <TableCell>{item.description}</TableCell>
+                <TableCell>{item.price}</TableCell>
+                
+              </TableRow>
+            ))}
         <TableRow>
           <TableCell>Name</TableCell>
           <TableCell>Minimum Amount</TableCell>
@@ -297,7 +422,7 @@ return(
       <TableBody>
         {
           values.product_list && values.product_list
-            .filter(prod => prod.user_id == u_id)
+            //.filter(prod => prod.user_id == u_id)
          // searchResults && searchResults  
             .map(row => (
               <TableRow key={row.id}>
@@ -308,9 +433,32 @@ return(
                 <TableCell><Button 
                   align= "left" 
                   color="inherit"
-                  onClick={handleRemove(row.id)}
-                ><span class="material-icons">delete</span></Button></TableCell>
-                <TableCell><Button onClick={handleEdit(row.price, row.min_amount, row.id)}><span class="material-icons">system_update_alt</span></Button></TableCell>
+
+                  onClick={() => addToCart(row)}
+                ><span class="material-icons">
+                add_shopping_cart
+                </span></Button>
+                <TableCell><button type="submit" onClick={() => removeFromCart(row)}>Remove</button></TableCell>
+                ({amountOfItems(row.id)} x ${row.price}) {`${row.name}`}
+
+                </TableCell>
+                <Rating
+                  name="hover-feedback"
+                  value = {row.rating}
+                  precision={0.5}
+
+                  onChange={(value, newHover) => {
+                    setValue(newHover);
+                  }}
+            
+                  onChangeActive={(event, newHover) => {
+                    setHover(newHover);
+
+                  }}
+                />
+                {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
+              
+                
               </TableRow>
           ) ) }
       </TableBody>

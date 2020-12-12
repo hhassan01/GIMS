@@ -18,6 +18,12 @@ import MuiAlert from "@material-ui/lab/Alert";
 
 //import AlertTitle from '@material-ui/lab/AlertTitle';
 import { AlertTitle } from '@material-ui/lab';
+import {
+ 
+  Switch,
+ // Link,
+  Redirect
+} from "react-router-dom";
 //import { ReactComponent as Logo } from './logo.svg';
 
 const useStyles = makeStyles(theme => ({
@@ -55,7 +61,8 @@ export default function SignUp() {
     password: '',
     passwordConfirmation: '',
     log_success: false,
-    error: false
+    error: false,
+    redirect : false
   });
 
   const handleChange = name => event => {
@@ -69,10 +76,10 @@ export default function SignUp() {
     password: values.password,
     passwordConfirmation: values.passwordConfirmation
   }
-
+  const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/users'
   const handleSignup = event => {
     event.preventDefault();
-    axios.post('/api/v1/users', params, {
+    axios.post(baseURL, params, {
       headers: {
         'content-type': 'application/json',
       },
@@ -80,9 +87,11 @@ export default function SignUp() {
     .then(response => {
       console.log(response.data)
       setValues({log_success:true})
+      setValues({redirect:true})
     })
     .catch(error => console.log(error))
      setValues({error:true})
+     localStorage.clear()
   }; 
 
   return (
@@ -102,6 +111,9 @@ export default function SignUp() {
               Oh, there is something wrong. — <strong>Please check it out!</strong>
             </Alert> : null
         }
+        {
+            values.redirect ? <Redirect to='/' /> : null
+          }
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

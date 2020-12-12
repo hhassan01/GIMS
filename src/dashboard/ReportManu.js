@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import axios from "axios";
-
+import Container from '@material-ui/core/Container';
 const useStyles = makeStyles(theme => ({
   seeMore: {
     marginTop: theme.spacing(3),
@@ -32,38 +32,47 @@ const useStyles = makeStyles(theme => ({
     width: '105%',
   },
 }));
-
-export default function Customers() {
+function invoicetotal(items) {
+  items = items.filter(status => status.order_status == "Delivered")
+  items = items.filter(status => status.order_status == "Delivered")
+  return items.map(({ total_amount }) => total_amount).reduce((sum, i) => sum + i, 0);
+}
+function itemtotal(items) {
+  items = items.filter(status => status.order_status == "Delivered")
+  return items.map(({ quantity}) => quantity).reduce((sum, i) => sum + i, 0);
+}
+export default function Reports() {
   const classes = useStyles();
-
-
   const [values, setValues] = React.useState({
     add_success: false,
     name: '',
     email: '',
     password: '',
-    user_list: []
+    amount: 0,
+    month_rep: false,
+    order_list: [],
+    order_list2:[]
   });
 
   React.useEffect(() => {
-    const baseURL = 'https://agile-badlands-70924.herokuapp.com/' 
+    const baseURL = 'http://agile-badlands-70924.herokuapp.com/' 
     axios.get(baseURL + 'api/v1/orders').then(response => {
       console.log(response.data)
-      setValues({user_list: response.data.data})
+      setValues({order_list: response.data.data})
+      console.log("values.order_list2")
+
     })
   }, []);
 
-  const params = {
-    name: values.name,
-    email: values.email,
-    user_type: "Wholesaler",
-    password: values.password,
-  }
-
-return (
-  <React.Fragment>
-    <Title>Orders</Title>
-    
+  const monthlyRep = ()=> {
+    setValues({month_rep:true});
+  }; 
+return(
+    <React.Fragment>
+    <Title>Report</Title>
+    <form align= "right">
+      <Button onClick={monthlyRep} color="inherit" >Current Month</Button> 
+    </form>
     <Table size="small">
       <TableHead>
         <TableRow>
@@ -73,12 +82,12 @@ return (
           <TableCell>Order Status</TableCell>
           <TableCell>Date Delivered</TableCell>
           <TableCell>Product ID</TableCell>
-          <TableCell>Ship Address</TableCell>
         </TableRow>
       </TableHead>
-      <TableBody>
+        <TableBody>
         {
-          values.user_list && values.user_list
+          values.order_list && values.order_list
+          .filter(status => status.order_status == "Delivered")
             .map(row => (
               <TableRow>
                 <TableCell>{row.id}</TableCell>
@@ -87,11 +96,18 @@ return (
                 <TableCell>{row.order_status}</TableCell>
                 <TableCell>{row.delivered_at}</TableCell>
                 <TableCell>{row.product_id}</TableCell>
-                <TableCell>{row.ship_address}</TableCell>
               </TableRow>
           ) ) }
+           <TableRow>
+            <TableCell>Total Revenue</TableCell>
+            <TableCell>{invoicetotal(values.order_list)} PKR</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>Total Items Sold</TableCell>
+            <TableCell>{itemtotal(values.order_list)} units</TableCell>
+          </TableRow>
       </TableBody>
     </Table>
   </React.Fragment>
-);
+  );
 }

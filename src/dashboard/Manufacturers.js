@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import axios from "axios";
+const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/users/'
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -40,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Manufacturers() {
   const classes = useStyles();
-  const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/users/'
+
 
   const [values, setValues] = React.useState({
     add_success: false,
@@ -92,7 +93,7 @@ export default function Manufacturers() {
   const handleRemove = uid => event => {
     event.preventDefault();
     const token = localStorage.getItem('token')
-    axios.delete('/api/v1/users/' + uid,
+    axios.delete(baseURL + uid,
       {headers: {
               'Authorization': token
             }})
