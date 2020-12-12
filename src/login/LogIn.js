@@ -90,7 +90,7 @@ export default function LogIn() {
   
   const handleLogin = event => {
     event.preventDefault();
-    const baseURL = 'http://agile-badlands-70924.herokuapp.com/' 
+    const baseURL = 'https://agile-badlands-70924.herokuapp.com/' 
     axios.post(baseURL + 'api/v1/login', params, {
       headers: {
         'content-type': 'application/json',
