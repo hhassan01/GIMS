@@ -185,6 +185,7 @@ return (
     <Table size="small">
       <TableHead>
         <TableRow>
+        <TableCell>User ID</TableCell>
           <TableCell>Name</TableCell>
           <TableCell>User Type</TableCell>
           <TableCell>Email</TableCell>
@@ -196,6 +197,7 @@ return (
             .filter(user => user.user_type == "Manufacturer")
             .map(row => (
               <TableRow key={row.id}>
+                <TableCell>{row.id}</TableCell>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.user_type}</TableCell>
                 <TableCell>{row.email}</TableCell>

@@ -43,28 +43,25 @@ const useStyles = makeStyles(theme => ({
 export default function Orders() {
   const classes = useStyles();
   const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/products/'
-  
-  // const [products, setproducts] = ([]);
-  // const [loading, setLoading] = React.useState(false);
-  
-  // const [filteredproducts, setFilteredproducts] = React.useState([]);
-  const people = [
-  // "Siri",
-  // "Alexa",
-  // "Google",
-  // "Facebook",
-  // "Twitter",
-  // "Linkedin",
-  // "Sinkedin"
-];
-
-
   const [searchTerm, setSearchTerm] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
   const handleSearchChange = e => {
     setSearchTerm(e.target.value);
   };
+  const [values, setValues] = React.useState({
+    item:'',
+    quantity: '',
+    price: '',
+    category: '',
+    product_list: [],
+    log_success: false,
+    product_added: false,
+    modal_open: false,
+    search: '',
 
+    editPrice: '',
+    editQuantity: ''
+  });
   React.useEffect(() => {
      axios.get(baseURL)
       .then(response => {
@@ -75,43 +72,10 @@ export default function Orders() {
       })
       .catch(err => {console.log(err);
         });
-    
-    const results = values.product_list && values.product_list
-            .filter(product =>
-      product.toLowerCase().includes(searchTerm)
-    );
 
-
-    setSearchResults(results);
   }, [searchTerm]);
 
 
-  const [values, setValues] = React.useState({
-    item:'',
-    quantity: '',
-    price: '',
-    category: '',
-    product_list: '',
-    log_success: false,
-    product_added: false,
-    modal_open: false,
-    search: '',
-
-    editPrice: '',
-    editQuantity: ''
-  });
-
-  // React.useEffect(() => {
-  //   setLoading(true);
-  //   axios.get(baseURL)
-  //     .then(response => {
-  //       setValues({product_list: response.data.data});
-  //       setproducts(response.data);
-  //       setLoading(false)
-  //     })
-  //     .catch(err => {console.log(err);
-  //       });
-  // }, []);
   
   const params = {
     name: values.name,
@@ -123,38 +87,6 @@ export default function Orders() {
   
   const successful = React.useState()
 
-  const handleSubmitAddItem = event => {
-    event.preventDefault();
-    axios.post('/api/v1/products', params, {
-      headers: {
-        'content-type': 'application/json',
-      },
-    })
-      .then(response => {
-        console.log(response.data)
-        setValues({
-          product_added: true,
-        }, () => {setTimeout(() => setValues({
-          product_added: false
-        }))}, 4000)
-        setValues({log_success: true})
-    })
-  }; 
-
-  const handleRemove = uid => event => {
-    event.preventDefault();
-    const token = localStorage.getItem('token')
-    axios.delete(baseURL + uid,
-      {headers: {
-              'Authorization': token
-      }})
-    .then(response => {
-      console.log(response)
-      window.location.reload(false)
-    }).catch(error => {
-      console.log(error)
-    })
-  }
 
   const u_id = localStorage.getItem('user_id')
 
@@ -162,177 +94,15 @@ export default function Orders() {
     setValues({ ...values, [name]: event.target.value });
     setSearchTerm(event.target.value);
    };
-  
-  const handleAddProducts = event => {
-    const timer = setTimeout(() => setValues({log_success:true}), 4000);
-    return () => clearTimeout(timer);
-  };
 
-  const handleEdit = (itemPrice, itemQuantity) => event => {
-    const timer = setTimeout(() => setValues({
-                                                modal_open:true,
-                                                editPrice: itemPrice,
-                                                editQuantity: itemQuantity
-                                              }), 4000);
-    return () => clearTimeout(timer);
-  }
-
-  const handleEditProduct = event => {
-    event.preventDefault();
-    //axios.patch('', params)
-  }
-  // onChange = e => {
-  //   setValues({values.search : e.target.value});
-  // }
-  if(values.log_success)
-  return (
-    <React.Fragment>
-      <div className={classes.paper}>
-      
-        <Button onClick={handleAddProducts} color="inherit" ></Button> 
-        <form 
-          className={classes.root} 
-          noValidate 
-          autoComplete="off" 
-          onSubmit={handleSubmitAddItem}
-        >
-        <Typography component="h1" variant="h5" align='center'>
-          Add Product
-        </Typography>
-        
-        <div>
-          <TextField 
-            id="name" 
-            label="Product Name" 
-            variant="outlined"
-            name="name"
-            value={values.name}
-            required
-            autoFocus
-            onChange={handleChange('name')}
-          />
-        </div>
-        
-        <div>
-          <TextField 
-            id="category" 
-            label="Category" 
-            variant="outlined"
-            name="category"
-            value={values.category}
-            required
-            autoFocus
-            onChange={handleChange('category')}
-          />
-        </div>
-      <div>
-        <TextField 
-          id="min_amount" 
-          label="Quantity" 
-          variant="outlined" 
-          name="min_amount"
-          value={values.quantity}
-          required
-          onChange={handleChange('min_amount')}
-        />
-      </div>
-      
-      <div>
-        <TextField 
-          id="price" 
-          label="Price" 
-          variant="outlined"
-          name="price"
-          value={values.price}
-          required
-          autoFocus
-          onChange={handleChange('price')}
-        />
-      </div>
-      
-      <div>
-        <Button 
-          type="submit" 
-          onClick 
-          variant="contained" 
-          color="primary" 
-          className={classes.form}>Add</Button>
-      </div>
-    </form>
-  </div>
-</React.Fragment>
-);
-
-if(values.modal_open)
-return(
-        <React.Fragment>
-      <div className={classes.paper}>
-        <Button onClick={handleEdit} color="inherit" ></Button> 
-        <form 
-          className={classes.root} 
-          noValidate 
-          autoComplete="off" 
-          onSubmit={handleEditProduct}
-        >
-        <Typography component="h1" variant="h5" align='center'>
-          Edit Product Details
-        </Typography>
-        
-        <TextField
-            autoFocus
-            margin="dense"
-            id="editPrice"
-            label="Price"
-            type="number"
-            fullWidth
-            value={values.editPrice}
-            onChange={handleChange('editPrice')}
-        />
-
-        <TextField
-            autoFocus
-            margin="dense"
-            id="editQuantity"
-            label="Minimum Amount"
-            type="number"
-            fullWidth
-            value={values.editQuantity}
-            onChange={handleChange('editQuantity')}
-        />
-      <div>
-        <Button 
-          type="submit" 
-          variant="contained" 
-          color="primary" 
-          className={classes.form}>SetValues</Button>
-      </div>
-    </form>
-  </div>
-</React.Fragment>
-);
 
 return(
   <React.Fragment>
-      <form align= "center">
-        
-  </form>
-
-    <form align= "right">
-    
-      <Button onClick={handleAddProducts} color="inherit" > Add Products</Button> 
-    </form>
     <Title>Products</Title>
-    <input
-            type="text"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={handleSearchChange}/>
-          <ul>
-            {searchResults && searchResults.map(item => (<li>{item}</li>))}
-          </ul>
     <Table size="small">
       <TableHead>
         <TableRow>
+        <TableCell>Manufacturer ID</TableCell>
           <TableCell>Name</TableCell>
           <TableCell>Minimum Amount</TableCell>
           <TableCell>Category</TableCell>
@@ -346,16 +116,11 @@ return(
           values.product_list && values.product_list  
             .map(row => (
               <TableRow key={row.id}>
+                <TableCell>{row.user_id}</TableCell>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.min_amount}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.price}</TableCell>
-                <TableCell><Button 
-                  align= "left" 
-                  color="inherit"
-                  onClick={handleRemove(row.id)}
-                ><span class="material-icons">delete</span></Button></TableCell>
-                <TableCell><Button onClick={handleEdit(row.price, row.min_amount)}><span class="material-icons">system_update_alt</span></Button></TableCell>
               </TableRow>
               
              
