@@ -77,6 +77,11 @@ export default function Checkout() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+  const handlegoBack = (event) => {
+     event.preventDefault();
+    localStorage.removeItem('cart')
+    window.location.href ="/WholeDash"
+  };
 
   return (
     <React.Fragment>
@@ -110,6 +115,7 @@ export default function Checkout() {
                   Your order number is #2001539. We have emailed your order confirmation, and will
                   send you an update when your order has shipped.
                 </Typography>
+                <Button onClick = {handlegoBack}> Done </Button>
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -127,6 +133,7 @@ export default function Checkout() {
                     className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+
                   </Button>
                 </div>
               </React.Fragment>

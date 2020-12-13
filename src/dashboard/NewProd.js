@@ -18,6 +18,13 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import { AlertTitle } from '@material-ui/lab';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
+import Checkout from './Checkout';
+import {
+ 
+  Switch,
+ // Link,
+  Redirect
+} from "react-router-dom";
 //import EditModal from '../Modals/editModal'
 
 /*const rows = [
@@ -72,7 +79,6 @@ const items = [
 
 export default function Orders() {
 
-
   const [cart, setCart] = React.useState([]);
   const [prod, setProd] = React.useState([]);
   const cartTotal = cart.reduce((total, { price = 0 }) => total + price, 0);
@@ -100,18 +106,30 @@ const useStyles = makeStyles({
 });
   const [value, setValue] = React.useState(2);
   const [hover, setHover] = React.useState(-1);
+  const [val, setVal] = React.useState({
+    check_out: false,
+    checkout_arr:[]
 
+  });
   const addToCart = (item) => setCart((currentCart) => [...currentCart, item]);
 
+  const handleCheckout = (event) => {
+    event.preventDefault();
+    setVal({check_out:true})
+    localStorage.setItem('cart',JSON.stringify(cart))
+    window.location.href ="/Checkout"
+
+  };
+  
   const removeFromCart = (item) => {
     setCart((currentCart) => {
-      const indexOfItemToRemove = currentCart.findIndex((cartItem) => cartItem.id === item.id);
-
+      console.log(cart)
+      const indexOfItemToRemove = currentCart.findIndex((cartItem) => cartItem.id === item.id)
       if (indexOfItemToRemove === -1) {
         return currentCart;
       }
-
       return [
+
         ...currentCart.slice(0, indexOfItemToRemove),
         ...currentCart.slice(indexOfItemToRemove + 1),
       ];
@@ -246,7 +264,11 @@ const useStyles = makeStyles({
 
   if(values.log_success)
   return (
+
     <React.Fragment>
+        {
+          values.check_out? <Redirect to='/Checkout' /> : null
+        }
       <div className={classes.paper}>
         <form 
           className={classes.root} 
@@ -324,6 +346,9 @@ const useStyles = makeStyles({
 if(values.modal_open)
 return(
         <React.Fragment>
+        {
+          values.check_out? <Redirect to='/Checkout' /> : null
+        }
       <div className={classes.paper}>
         <Button onClick={handleEdit} color="inherit" ></Button> 
         <form 
@@ -376,6 +401,12 @@ return(
       <div>Shopping Cart Balance: ${cartTotal} ({cart.length})</div>
       <div>
         <button onClick={() => setCart([])}>Clear</button>
+      </div>
+      <div>
+        <button onClick={handleCheckout}>Checkout</button>
+        {
+          values.check_out? <Redirect to='/Checkout' /> : null
+        }
       </div>
    </form>
     <Title>Products</Title>

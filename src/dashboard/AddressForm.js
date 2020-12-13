@@ -5,7 +5,17 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-export default function AddressForm() {
+
+
+export default function AddressForm(props) {
+  const [values, setValues] = React.useState({
+    address1: '',
+    zip: 0,
+    city: ''
+  });
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -18,6 +28,8 @@ export default function AddressForm() {
             id="address1"
             name="address1"
             label="Address line 1"
+            value = {values.address1}
+            onChange ={handleChange('address1')}
             fullWidth
             autoComplete="shipping address-line1"
           />
@@ -29,6 +41,8 @@ export default function AddressForm() {
             name="city"
             label="City"
             fullWidth
+            value = {values.city}
+            onChange = {handleChange('city')}
             autoComplete="shipping address-level2"
           />
         </Grid>
@@ -37,6 +51,8 @@ export default function AddressForm() {
             required
             id="zip"
             name="zip"
+            value = {values.zip}
+            onChange = {handleChange('zip')}
             label="Zip / Postal code"
             fullWidth
             autoComplete="shipping postal-code"
@@ -44,5 +60,6 @@ export default function AddressForm() {
         </Grid>
       </Grid>
     </React.Fragment>
+    
   );
 }

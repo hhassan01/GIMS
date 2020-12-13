@@ -8,8 +8,8 @@ import LogIn                                    from './login/LogIn';
 import SignUp                                   from './signup/SignUp';
 import Dashboard                                from './dashboard/Dashboard';
 import ManufacturerDash                         from './dashboard/DashboardManufacturer';
+import Checkout                                 from './dashboard/Checkout';
 import WholesalerDash                           from './dashboard/WholesalerDashboard'
-import Checkout                                 from './checkOut/Checkout'
 import './App.css';
 
 
@@ -22,7 +22,7 @@ function App() {
             <Route path="/distDash"  component={Dashboard}        />
             <Route path="/manuDash"  component={ManufacturerDash} />
             <Route path="/wholeDash" component={WholesalerDash}   />
-            <Route path="/checkout"  component={Checkout}         />
+            <Route path="/Checkout" component={Checkout}   />
         </Router>
     );
 }

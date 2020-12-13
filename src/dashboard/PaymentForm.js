@@ -12,9 +12,16 @@ export default function PaymentForm() {
         Payment method
       </Typography>
       <Grid container spacing={3}>
+      <div>
         <Typography variant="h7" gutterBottom>
-          Only Cash on Delivery Available
+        <FormControlLabel
+          value="end"
+          control={<Checkbox color="primary" />}
+          label="Cash on Delivery "
+          labelPlacement="end"
+        />
         </Typography>
+        </div>
       </Grid>
     </React.Fragment>
   );
