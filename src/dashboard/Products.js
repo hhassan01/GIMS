@@ -65,6 +65,7 @@ export default function Orders() {
   React.useEffect(() => {
      axios.get(baseURL)
       .then(response => {
+        const productsl = response.data.data
         console.log(response.data.data)
         setValues({product_list: response.data.data});
         //setproducts(response.data);
@@ -75,7 +76,14 @@ export default function Orders() {
 
   }, [searchTerm]);
 
-
+  function min_amountcheck (item) {
+    if(item < 60)
+    {
+      return <Alert> Low Stock! </Alert> 
+    };
+    
+     return null
+  };
   
   const params = {
     name: values.name,
@@ -113,12 +121,12 @@ return(
         
       <TableBody>
         {
-          values.product_list && values.product_list  
+          values.product_list && values.product_list
             .map(row => (
               <TableRow key={row.id}>
                 <TableCell>{row.user_id}</TableCell>
                 <TableCell>{row.name}</TableCell>
-                <TableCell>{row.min_amount}</TableCell>
+                <TableCell>{row.min_amount}{min_amountcheck(row.min_amount)}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.price}</TableCell>
               </TableRow>

@@ -133,7 +133,14 @@ export default function Orders() {
                                               }), 4000);
     return () => clearTimeout(timer);
   }
-
+  function min_amountcheck (item) {
+    if(item < 60)
+    {
+      return <Alert> Low Stock! </Alert> 
+    };
+    
+     return null
+  };
   const handleEditProduct = event => {
     event.preventDefault();
     const params = {
@@ -282,6 +289,7 @@ return(
       <TableHead>
           
         <TableRow>
+          <TableCell>Product ID</TableCell>
           <TableCell>Name</TableCell>
           <TableCell>Minimum Amount</TableCell>
           <TableCell>Category</TableCell>
@@ -296,8 +304,9 @@ return(
          // searchResults && searchResults  
             .map(row => (
               <TableRow key={row.id}>
+                <TableCell>{row.id}</TableCell>
                 <TableCell>{row.name}</TableCell>
-                <TableCell>{row.min_amount}</TableCell>
+                <TableCell>{row.min_amount}{min_amountcheck(row.min_amount)}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell>{row.price}</TableCell>
                 <TableCell><Button 
