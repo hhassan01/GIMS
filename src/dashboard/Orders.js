@@ -42,13 +42,13 @@ const useStyles = makeStyles(theme => ({
 export default function Orders() {
   const classes = useStyles();
   const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/products/'
-    
+  const u_id = localStorage.getItem('user_id')
   const [values, setValues] = React.useState({
     item:'',
     quantity: '',
     price: '',
     category: '',
-    product_list: '',
+    product_list: [],
     log_success: false,
     product_added: false,
     modal_open: false,
@@ -58,9 +58,14 @@ export default function Orders() {
     editID: '',
     red: false
   });
-
+  const params = {
+    name: values.name,
+    price: values.price,
+    min_amount: values.min_amount,
+    description: values.category,
+    user_id: localStorage.getItem('user_id')
+  }
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [searchResults, setSearchResults] = React.useState([]);
   const handleSearchChange = e => {
     e.preventDefault()
     setSearchTerm(e.target.value);
@@ -69,22 +74,12 @@ export default function Orders() {
   React.useEffect(() => {
     axios.get(baseURL)
       .then(response => {
+        localStorage.setItem('prod',JSON.stringify(response.data.data.filter(prod => prod.user_id == u_id)))
         setValues({product_list: response.data.data})
-        const results = values.product_list && values.product_list
-          .filter(product =>
-            product.name.toLowerCase().includes(searchTerm)
-          );
-        setSearchResults(results)
       })
-  }, [searchTerm]);
-  
-  const params = {
-    name: values.name,
-    price: values.price,
-    min_amount: values.min_amount,
-    description: values.category,
-    user_id: localStorage.getItem('user_id')
-  }
+  }, []);
+   const [searchResults, setSearchResults] = React.useState(values.product_list);
+
   
 //  const successful = React.useState()
 
@@ -119,7 +114,6 @@ export default function Orders() {
     })
   }
 
-  const u_id = localStorage.getItem('user_id')
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -294,6 +288,7 @@ return(
           <TableCell>Price</TableCell>
         </TableRow>
       </TableHead>
+
       <TableBody>
         {
           values.product_list && values.product_list

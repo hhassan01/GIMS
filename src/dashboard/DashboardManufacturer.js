@@ -138,15 +138,13 @@ export default function Dashboard() {
     setValues({log_success:false});
     window.location.href ="/"
   };
-  const handleProducts = event => {
-     const timer = setTimeout(() => setValues({log_success:true}), 5);
-    return () => setValues({log_success:true});
+  const handleProducts= ()=>{
+     setValues({log_success:!values.log_success})
     //setOpen(true);
 
   };
-  const viewReport = event => {
-     const timer = setTimeout(() => setValues({view_rep:true}), 5);
-    return () => setValues({view_rep:true});
+  const viewReport=() => {
+    setValues({view_rep:!values.view_rep})
     //setOpen(true);
 
   };
@@ -220,12 +218,6 @@ return(
         </div>
         <Divider />
         <List>  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
     <ListItem button onClick={handleProducts}>
       <ListItemIcon>
         <StorefrontIcon />

@@ -16,6 +16,9 @@ export default function AddressForm(props) {
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
+  localStorage.setItem('address',values.address1);
+  localStorage.setItem('zip',values.zip);
+  localStorage.setItem('city',values.city);
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -60,6 +63,6 @@ export default function AddressForm(props) {
         </Grid>
       </Grid>
     </React.Fragment>
-    
+
   );
 }
