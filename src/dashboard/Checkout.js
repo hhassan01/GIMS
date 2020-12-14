@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -68,7 +69,26 @@ function getStepContent(step) {
 
 export default function Checkout() {
   const classes = useStyles();
+  const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/orders' 
   const [activeStep, setActiveStep] = React.useState(0);
+  const cart = localStorage.getItem('cart')
+  const cart2 = JSON.parse(cart)
+  const uid = localStorage.getItem('user_id')
+  const address = localStorage.getItem('address')
+  const zip = localStorage.getItem('zip')
+  const city = localStorage.getItem('city')
+  const addresses = [address,zip, city].join(', ');
+  const cartTotal = cart2.reduce((total, { price = 0 }) => total + price, 0);
+  const quantityTotal = cart2.filter(prod => prod.id === cart2[0].id).reduce((total, {min_amount = 0 }) => total + min_amount, 0); 
+  const params = {
+    total_amount: cartTotal,
+    order_status: "Processing",
+    quantity:quantityTotal,
+    user_id:uid,
+    ship_address:addresses,
+    product_id: cart2[0].id,
+    name: cart2[0].name
+  }
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -77,10 +97,21 @@ export default function Checkout() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+  const reDirect = () => {
+    window.location.href ="/WholeDash"
+  };
   const handlegoBack = (event) => {
-     event.preventDefault();
+        event.preventDefault();
+    axios.post(baseURL, params, {
+      headers: {
+        'content-type': 'application/json',
+      },
+    }
+    )
+    .then(response => {
     localStorage.removeItem('cart')
     window.location.href ="/WholeDash"
+    })
   };
 
   return (
@@ -89,8 +120,11 @@ export default function Checkout() {
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Company name
+            GIMS Grocery Inventory Management System
           </Typography>
+          <Button onClick = {reDirect} align = "left">
+           Back
+          </Button>
         </Toolbar>
       </AppBar>
       <main className={classes.layout}>

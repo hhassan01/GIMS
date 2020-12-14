@@ -175,7 +175,7 @@ const useStyles = makeStyles({
   React.useEffect(() => {
     axios.get(baseURL)
       .then(response => {
-        setValues({product_list: response.data.data})
+        setValues({product_list: response.data.data.filter(prod => prod.id < 100)})
         const results = values.product_list && values.product_list
           .filter(product =>
             product.name.toLowerCase().includes(searchTerm)
@@ -398,7 +398,7 @@ return(
 return(
   <React.Fragment>
     <form align= "right">
-      <div>Shopping Cart Balance: ${cartTotal} ({cart.length})</div>
+      <div>Shopping Cart Balance: PKR {cartTotal} ({cart.length})</div>
       <div>
         <button onClick={() => setCart([])}>Clear</button>
       </div>
@@ -460,7 +460,7 @@ return(
                     onClick={() => removeFromCart(row)}
                   >Remove</button>
                 </TableCell>
-                ({amountOfItems(row.id)} x ${row.price}) {`${row.name}`}
+                ({amountOfItems(row.id)} x PKR {row.price}) {`${row.name}`}
               </TableCell>
                 <Rating
                   name="hover-feedback"
