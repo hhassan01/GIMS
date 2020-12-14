@@ -155,7 +155,7 @@ export default function Orders() {
       price: values.editPrice,
       min_amount: values.editQuantity
     }
-    axios.patch(baseURL + values.editID, params)
+    axios.post(baseURL + values.editID, params)
       .then(response => {
         console.log(response)
       })

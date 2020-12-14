@@ -146,7 +146,13 @@ export default function Orders() {
       price: values.editPrice,
       min_amount: values.editQuantity
     }
-    axios.patch(baseURL + values.editID, params)
+    
+    //headers.append('Access-Control-Allow-Origin', baseURL);
+    //headers.append('Access-Control-Allow-Credentials', 'true');
+    axios.defaults.headers.common['Access-Control-Allow-Credentials'] = true
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+
+    axios.post(baseURL + values.editID, params)
       .then(response => {
         console.log(response)
       })
