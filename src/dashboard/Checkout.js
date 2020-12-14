@@ -78,17 +78,6 @@ export default function Checkout() {
   const zip = localStorage.getItem('zip')
   const city = localStorage.getItem('city')
   const addresses = [address,zip, city].join(', ');
-  const cartTotal = cart2.reduce((total, { price = 0 }) => total + price, 0);
-  const quantityTotal = cart2.filter(prod => prod.id === cart2[0].id).reduce((total, {min_amount = 0 }) => total + min_amount, 0); 
-  const params = {
-    total_amount: cartTotal,
-    order_status: "Processing",
-    quantity:quantityTotal,
-    user_id:uid,
-    ship_address:addresses,
-    product_id: cart2[0].id,
-    name: cart2[0].name
-  }
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -101,18 +90,32 @@ export default function Checkout() {
     window.location.href ="/WholeDash"
   };
   const handlegoBack = (event) => {
-        event.preventDefault();
-    axios.post(baseURL, params, {
+    let uniqueItems = [...new Set(cart2)]
+    var i;
+    for (i=0;i<uniqueItems.length;i++)
+   {   const cartTotal = cart2.filter(prod => prod.id === uniqueItems[i].id).reduce((total, { price = 0 }) => total + price, 0);
+     const quantityTotal = cart2.filter(x => x.id===uniqueItems[i].id).length; 
+     const params = {
+       total_amount: cartTotal,
+       order_status: "Processing",
+       quantity:quantityTotal,
+       user_id:uid,
+       ship_address:addresses,
+       product_id: uniqueItems[i].id,
+       name: uniqueItems[i].name
+     }
+      event.preventDefault();
+      axios.post(baseURL, params, {
       headers: {
-        'content-type': 'application/json',
+          'content-type': 'application/json',
       },
-    }
-    )
-    .then(response => {
-    localStorage.removeItem('cart')
-    window.location.href ="/WholeDash"
-    })
-  };
+       })
+      if(i === uniqueItems.length-1)
+      {
+        localStorage.removeItem('cart')
+        window.location.href = '/WholeDash'
+      }
+    }};
 
   return (
     <React.Fragment>
@@ -146,8 +149,7 @@ export default function Checkout() {
                   Thank you for your order.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
+                  Your order has been confirmed.
                 </Typography>
                 <Button onClick = {handlegoBack}> Done </Button>
               </React.Fragment>
