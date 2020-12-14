@@ -42,6 +42,8 @@ function itemtotal(items) {
   return items.map(({ quantity}) => quantity).reduce((sum, i) => sum + i, 0);
 }
 export default function Reports() {
+  const mycart = localStorage.getItem('prod')
+  const mycart2 = JSON.parse(mycart)
   const classes = useStyles();
   const [values, setValues] = React.useState({
     add_success: false,
@@ -70,9 +72,6 @@ export default function Reports() {
 return(
     <React.Fragment>
     <Title>Report</Title>
-    <form align= "right">
-      <Button onClick={monthlyRep} color="inherit" >Current Month</Button> 
-    </form>
     <Table size="small">
       <TableHead>
         <TableRow>
@@ -88,6 +87,7 @@ return(
         {
           values.order_list && values.order_list
           .filter(status => status.order_status == "Delivered")
+          .filter(({product_id}) =>mycart2.some(exclude => exclude.id === product_id))
             .map(row => (
               <TableRow>
                 <TableCell>{row.id}</TableCell>
@@ -98,14 +98,6 @@ return(
                 <TableCell>{row.product_id}</TableCell>
               </TableRow>
           ) ) }
-           <TableRow>
-            <TableCell>Total Revenue</TableCell>
-            <TableCell>{invoicetotal(values.order_list)} PKR</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Total Items Sold</TableCell>
-            <TableCell>{itemtotal(values.order_list)} units</TableCell>
-          </TableRow>
       </TableBody>
     </Table>
   </React.Fragment>

@@ -6,7 +6,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 
-const addresses = [localStorage.getItem('address'), localStorage.getItem('zip'), localStorage.getItem('city')];
+
+const address = localStorage.getItem('address')
+const zip = localStorage.getItem('zip')
+const city = localStorage.getItem('city')
+const addresses = [address,zip, city];
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -46,15 +50,6 @@ export default function Review(props) {
           </Typography>
         </ListItem>
       </List>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom className={classes.title}>
-            Shipping
-          </Typography>
-          <Typography gutterBottom>{name}</Typography>
-          <Typography gutterBottom>{addresses.join(', ')}</Typography>
-        </Grid>
-      </Grid>
     </React.Fragment>
   );
 }

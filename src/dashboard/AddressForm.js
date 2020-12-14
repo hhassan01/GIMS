@@ -10,11 +10,15 @@ import Checkbox from '@material-ui/core/Checkbox';
 export default function AddressForm(props) {
   const [values, setValues] = React.useState({
     address1: '',
-    zip: 0,
+    zip: '',
     city: ''
   });
   const handleChange = name => event => {
+    event.preventDefault();
     setValues({ ...values, [name]: event.target.value });
+      localStorage.setItem(name,event.target.value);
+      return;
+
   };
   return (
     <React.Fragment>
@@ -25,11 +29,11 @@ export default function AddressForm(props) {
         <Grid item xs={12}>
           <TextField
             required
-            id="address1"
-            name="address1"
+            id="address"
+            name="address"
             label="Address line 1"
-            value = {values.address1}
-            onChange ={handleChange('address1')}
+            value = {values.address}
+            onChange ={handleChange('address')}
             fullWidth
             autoComplete="shipping address-line1"
           />
@@ -60,6 +64,6 @@ export default function AddressForm(props) {
         </Grid>
       </Grid>
     </React.Fragment>
-    
+
   );
 }

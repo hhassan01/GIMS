@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -68,7 +69,15 @@ function getStepContent(step) {
 
 export default function Checkout() {
   const classes = useStyles();
+  const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/orders' 
   const [activeStep, setActiveStep] = React.useState(0);
+  const cart = localStorage.getItem('cart')
+  const cart2 = JSON.parse(cart)
+  const uid = localStorage.getItem('user_id')
+  const address = localStorage.getItem('address')
+  const zip = localStorage.getItem('zip')
+  const city = localStorage.getItem('city')
+  const addresses = [address,zip, city].join(', ');
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -77,11 +86,36 @@ export default function Checkout() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-  const handlegoBack = (event) => {
-     event.preventDefault();
-    localStorage.removeItem('cart')
+  const reDirect = () => {
     window.location.href ="/WholeDash"
   };
+  const handlegoBack = (event) => {
+    let uniqueItems = [...new Set(cart2)]
+    var i;
+    for (i=0;i<uniqueItems.length;i++)
+   {   const cartTotal = cart2.filter(prod => prod.id === uniqueItems[i].id).reduce((total, { price = 0 }) => total + price, 0);
+     const quantityTotal = cart2.filter(x => x.id===uniqueItems[i].id).length; 
+     const params = {
+       total_amount: cartTotal,
+       order_status: "Processing",
+       quantity:quantityTotal,
+       user_id:uid,
+       ship_address:addresses,
+       product_id: uniqueItems[i].id,
+       name: uniqueItems[i].name
+     }
+      event.preventDefault();
+      axios.post(baseURL, params, {
+      headers: {
+          'content-type': 'application/json',
+      },
+       })
+      if(i === uniqueItems.length-1)
+      {
+        localStorage.removeItem('cart')
+        window.location.href = '/WholeDash'
+      }
+    }};
 
   return (
     <React.Fragment>
@@ -89,8 +123,11 @@ export default function Checkout() {
       <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Company name
+            GIMS Grocery Inventory Management System
           </Typography>
+          <Button onClick = {reDirect} align = "left">
+           Back
+          </Button>
         </Toolbar>
       </AppBar>
       <main className={classes.layout}>
@@ -112,8 +149,7 @@ export default function Checkout() {
                   Thank you for your order.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
+                  Your order has been confirmed.
                 </Typography>
                 <Button onClick = {handlegoBack}> Done </Button>
               </React.Fragment>
