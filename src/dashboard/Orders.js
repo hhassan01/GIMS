@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Orders() {
+export default function Products() {
   const classes = useStyles();
   const baseURL = 'https://agile-badlands-70924.herokuapp.com/api/v1/products/'
   const u_id = localStorage.getItem('user_id')
@@ -147,13 +147,7 @@ export default function Orders() {
       price: values.editPrice,
       min_amount: values.editQuantity
     }
-    
-    //headers.append('Access-Control-Allow-Origin', baseURL);
-    //headers.append('Access-Control-Allow-Credentials', 'true');
-    axios.defaults.headers.common['Access-Control-Allow-Credentials'] = true
-    axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-
-    axios.post(baseURL + values.editID, params)
+    axios.patch(baseURL + values.editID, params)
       .then(response => {
         console.log(response)
       })

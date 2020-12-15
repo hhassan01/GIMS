@@ -67,7 +67,8 @@ export default function Orders() {
       .then(response => {
         const productsl = response.data.data
         console.log(response.data.data)
-        setValues({product_list: response.data.data});
+        setValues({product_list: response.data.data.filter(prod => (prod.user_id === 2|| prod.user_id === 3|| prod.user_id === 6
+          ||prod.user_id === 7||prod.user_id === 8||prod.user_id === 11||prod.user_id === 13||prod.user_id === 14))});
         //setproducts(response.data);
         //setLoading(false)
       })
@@ -110,6 +111,7 @@ return(
     <Table size="small">
       <TableHead>
         <TableRow>
+        <TableCell>Product ID</TableCell>
         <TableCell>Manufacturer ID</TableCell>
           <TableCell>Name</TableCell>
           <TableCell>Minimum Amount</TableCell>
@@ -124,6 +126,7 @@ return(
           values.product_list && values.product_list
             .map(row => (
               <TableRow key={row.id}>
+              <TableCell>{row.id}</TableCell>
                 <TableCell>{row.user_id}</TableCell>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.min_amount}{min_amountcheck(row.min_amount)}</TableCell>

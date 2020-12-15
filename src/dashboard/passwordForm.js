@@ -59,7 +59,7 @@ export default function PasswordForm() {
   
   const handleLogin = event => {
     event.preventDefault();
-    axios.post(`https://agile-badlands-70924.herokuapp.com/api/v1/password_resets/${id}`, params, {
+    axios.patch(`https://agile-badlands-70924.herokuapp.com/api/v1/password_resets/${id}`, params, {
       headers: {
         'content-type': 'application/json',
       },

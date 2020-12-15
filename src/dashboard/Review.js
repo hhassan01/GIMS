@@ -40,13 +40,13 @@ export default function Review(props) {
         {mycart2.map((product) => (
           <ListItem className={classes.listItem} key={product.name}>
             <ListItemText primary={product.name} secondary={product.description} />
-            <Typography variant="body2">{product.price}$</Typography>
+            <Typography variant="body2">{product.price}PKR</Typography>
           </ListItem>
         ))}
         <ListItem className={classes.listItem}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" className={classes.total}>
-           {cartTotal}$
+           {cartTotal} PKR
           </Typography>
         </ListItem>
       </List>

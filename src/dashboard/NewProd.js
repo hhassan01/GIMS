@@ -175,7 +175,8 @@ const useStyles = makeStyles({
   React.useEffect(() => {
     axios.get(baseURL)
       .then(response => {
-        setValues({product_list: response.data.data.filter(prod => prod.id < 100)})
+        setValues({product_list: response.data.data.filter(prod => (prod.user_id === 2|| prod.user_id === 3|| prod.user_id === 6
+          ||prod.user_id === 7||prod.user_id === 8||prod.user_id === 11||prod.user_id === 13||prod.user_id === 14) && prod.id <100)})
         const results = values.product_list && values.product_list
           .filter(product =>
             product.name.toLowerCase().includes(searchTerm)
@@ -256,7 +257,7 @@ const useStyles = makeStyles({
       price: values.editPrice,
       min_amount: values.editQuantity
     }
-    axios.post(baseURL + values.editID, params)
+    axios.patch(baseURL + values.editID, params)
       .then(response => {
         console.log(response)
       })

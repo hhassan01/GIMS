@@ -19,8 +19,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 //import { mainListItems, secondaryListItems } from './ListItemsManufacturer';
-import Orders from './Orders';
+import Products from './Orders';
 import Reports from './ReportManu';
+import Orders from './OrdersManu';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -129,7 +130,8 @@ export default function Dashboard() {
   const [values, setValues] = React.useState({
     log_success: false,
     isDelete: false,
-    view_rep:false
+    view_rep:false,
+    view_orders:false
   });
   
   const handleLogOut = event =>{
@@ -145,6 +147,11 @@ export default function Dashboard() {
   };
   const viewReport=() => {
     setValues({view_rep:!values.view_rep})
+    //setOpen(true);
+
+  };
+  const viewOrders=() => {
+    setValues({view_orders:!values.view_orders})
     //setOpen(true);
 
   };
@@ -224,13 +231,18 @@ return(
       </ListItemIcon>
       <ListItemText primary="My Products" />
     </ListItem>
+    <ListItem button onClick={viewOrders}>
+      <ListItemIcon>
+        <DashboardIcon />
+      </ListItemIcon>
+      <ListItemText primary="Orders" />
+    </ListItem>
     <ListItem button onClick={viewReport}>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Reports" />
     </ListItem>
-
   </div></List>
         <Divider />
         <List>  <div>
@@ -249,7 +261,7 @@ return(
                     {
             values.log_success ? <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders />
+                <Products />
               </Paper>
             </Grid> : null
           }
@@ -257,6 +269,13 @@ return(
             values.view_rep ? <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Reports />
+              </Paper>
+            </Grid> : null
+          }
+                                        {
+            values.view_orders ? <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Orders />
               </Paper>
             </Grid> : null
           }

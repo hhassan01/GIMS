@@ -237,7 +237,7 @@ export default function Dashboard() {
     </ListItem>
   </div></List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
